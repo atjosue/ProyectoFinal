@@ -68,18 +68,7 @@
                 <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">Ordenar</p>
             </div>
         <div class="col-md-3" style="margin-top: 10px;">
-          <div class="btn-group pull-right">
-                     <div>
-                       <button class="btn btn-success  btn-sm " style="margin-left: 5px;" id="ordenar">Ordenar </button>
-                     </div>
-                     <div>
-                       <button class="btn btn-danger  btn-sm " style="margin-left: 5px;" id="cancelar">Cancelar</button>
-                     </div>   
-                        
-                        <br><br>
-                       
-                    
-          </div>
+         
         </div>
         <div class="clearfix"></div>
          <div class="col-md-12" style="margin-top: 0px;">
@@ -106,7 +95,7 @@
                       <td>".$value['nombreCombo']."</td>
                       <td>".$value['precio']."</td>
                       <td>".'<input type="number" id="'.$idCont2.'" name="'.$value['idCombo'].'" min="1" max="15" class="cantidad" value="1" >'."</td>
-                      <td>".'<p id="'.$idCont.'" class="subtotal" name="">algo</p>'."</td>
+                      <td>".'<p id="'.$idCont.'" class="subtotal" name="'.$value['idCombo'].'">algo</p>'."</td>
                       <td>
                         <input type='button' class='form-control btn-outline-warning btn-xs eliminarCombo' id='".$value['idCombo']."' value='Quitar'>
                       </td>
