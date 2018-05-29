@@ -155,4 +155,59 @@ $(document).ready(function(){
 		});
 	});
 
+	//-----------------------------------------Cancelar INFO-----------------------------------
+	$("#cancelarInfo").on("click",function(){
+		
+	 swal({
+                       title: "Advertencia",
+                       text: "¿Estas seguro de eliminar este Combo del Carrito?\n Si aceptas removerlo, no habra forma de recuperar los datos posteriormente",
+                       type: "warning",
+                       showCancelButton: true,
+                       cancelButtonText: "No",
+                       confirmButtonText: "Si",
+                       confirmButtonColor: "#00A59D",
+                       closeOnConfirm: true,
+                       closeOnCancel: true
+                   },
+                                function (isConfirm) {
+                                  if (isConfirm) {
+
+                                                              
+                                  $.ajax({
+									type:'POST',
+									data:{key:'quitar'},
+									url:"../../controller/carritoController.php",
+										success:function(data){
+											if (data==true) {
+                                          swal({
+                                                  title: "Exito!",
+                                                  text: " Orden Cancelada",
+                                                  timer: 1500,
+                                                  type: 'success',
+                                                  closeOnConfirm: true,
+                                                          closeOnCancel: true
+                                                });
+                                          setTimeout( function(){ 
+                                              $(location).attr('href',"../../view/cliente/dashBoardCliente.php");
+                                          }, 1000 );
+                                          
+                                        }else{
+                                            swal({
+                                                  title: "Ha ocurrido un Error!",
+                                                  text: "Ponte en contacto con MetroFood!!",
+                                                  timer: 1500,
+                                                  type: 'error',
+                                                  closeOnConfirm: true,
+                                                          closeOnCancel: true
+                                                });
+                                        }
+									}
+								});                    
+
+                               } else {
+                            }
+                          });  
+		
+	
+	});
 });

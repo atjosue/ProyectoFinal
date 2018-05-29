@@ -86,12 +86,18 @@
             <?php 
               $objCarrito = new Carrito();
               $data = $objCarrito->extraerCombos();
+
               if ($data!=false) {
                 $idCont=0.5;
                 $idCont2='a';
+                $conCantidades=1;
                 foreach ($data as  $value) {
+                  $sql="select cantidad  from carrito where idCombo='".$value['idCombo']."';";
                   
-                  echo "<tr>
+                  
+                  echo "
+
+                  <tr>
                       <td>".$value['nombreCombo']."</td>
                       <td>".$value['precio']."</td>
                       <td>".'<input type="number" id="'.$idCont2.'" name="'.$value['idCombo'].'" min="1" max="15" class="cantidad" value="1" >'."</td>

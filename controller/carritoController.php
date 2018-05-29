@@ -50,9 +50,12 @@
 	}
 	function quitar(){
 		$objCarrito = new Carrito();
-		$dul=$objCarrito->setIdCombo($_POST['idCombo']);
-
-		$resp=$objCarrito->quitar();
+		$resp=$objCarrito->deleteCombos();
+		echo $resp;
+	}
+	function cancelar(){
+		$objCarrito = new Carrito();
+		
 		echo $resp;
 	}
 
