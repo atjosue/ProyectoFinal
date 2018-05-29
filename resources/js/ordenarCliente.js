@@ -1,4 +1,20 @@
 $(document).ready(function(){
+										$.ajax({
+											type:'POST',
+											dataType: 'json',
+											data: {key:'total'},
+											url:"../../controller/carritoController.php",
+											success : function(dati){
+												if (dati) {
+													console.log("paso el tres");
+													console.log(dati.total);
+													$('#total').val(dati.total);
+												}
+											}
+										});	
+
+
+
 	/*******************MAPA**************/
 	$("#botonFinal").hide();
 
