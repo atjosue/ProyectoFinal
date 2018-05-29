@@ -8,6 +8,9 @@ if (isset($_POST['key'])) {
 		case 'agregar':
 			agregar();
 			break;
+		case 'eliminar':
+			eliminar();
+				break;	
 		
 		default:
 			
@@ -42,6 +45,19 @@ if (isset($_POST['key'])) {
 
 
 		echo $res;
+	}
+
+	function eliminar()
+	{
+
+		$objRepartidor = new Repartidor();
+		$idRepartidor = $_POST['idRepartidor'];
+
+
+		$res = $objRepartidor->eliminarRepartidor($idRepartidor);
+		echo $res;
+	
+		
 	}
 
 

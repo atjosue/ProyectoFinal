@@ -93,7 +93,7 @@ class Repartidor extends Usuario
   		$data=$info->fetch_assoc();
  
     	//$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u WHERE r.idUsuario='".$data['id']."' AND u.idUsuario='".$data['id']."';";
-    	$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u, restaurante p WHERE r.idRestaurante='".$data['id']."' AND p.idRestaurante='".$data['id']."' AND r.idUsuario=u.idUsuario";
+    	$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u, restaurante p WHERE r.idRestaurante='".$data['id']."' AND p.idRestaurante='".$data['id']."' AND r.idUsuario=u.idUsuario AND r.estadoRepartidor='1'";
     	
        // $sqlAll = "SELECT * from repartidor WHERE estadoRepartidor = 1";
        	
@@ -139,7 +139,7 @@ class Repartidor extends Usuario
 					
 					$info4= $con->query($sql4);
 
-					
+
 
 						if ($info4==1) {
 							$vendor = true;	
@@ -148,6 +148,33 @@ class Repartidor extends Usuario
 				return $vendor;
 
 		}
+
+						    public function eliminarRepartidor($idRepartidor)
+					    {
+
+					    	$objCon= new Conexion();
+					    	$con=$objCon->conectar();
+					    
+					       $sql = "UPDATE  repartidor SET estadoRepartidor=0 WHERE idRepartidor=".$idRepartidor;
+					       $res1 = $con->query($sql);
+					      
+
+					        $data = array();
+					        if ($res1) {
+					            $data['estado']=true;
+					            $data['descripcion']="Datos eliminados exitosamente";
+					        }else{
+					            $data['estado']=false;
+					            $data['descripcion']="Error en la eliminacion ";
+					        }
+
+					
+
+					
+
+					    return json_encode($data);
+
+					    }
 
 
 }
