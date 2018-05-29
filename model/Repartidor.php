@@ -92,7 +92,8 @@ class Repartidor extends Usuario
   		
   		$data=$info->fetch_assoc();
  
-    	$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u WHERE r.idUsuario='".$data['id']."' AND u.idUsuario='".$data['id']."';";
+    	//$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u WHERE r.idUsuario='".$data['id']."' AND u.idUsuario='".$data['id']."';";
+    	$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u, restaurante p WHERE r.idRestaurante='".$data['id']."' AND p.idRestaurante='".$data['id']."' AND r.idUsuario=u.idUsuario";
     	
        // $sqlAll = "SELECT * from repartidor WHERE estadoRepartidor = 1";
        	
@@ -106,30 +107,28 @@ class Repartidor extends Usuario
     }
 
      public function agregar($idRestaurante, $usuario,$contra){
+     	echo $idRestaurante;
+     	die();
 
     		$fecha=date('y-m-d');
 			$objUsuario = new Usuario();
 
 			$vendor = false;
-			$
+
 
 			$sql1 = "INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('".$usuario."', '".$contra."', '".$fecha."', '".$fecha."', '1', '4')";
-
-			echo $sql;
-			die();
 
 			$info = $con->query($sql1);
 			
 				if ($info) {
 					
 					$sql2 = "select max(u.idUsuario) as id from usuario u";
-
-
 					$info2 = $con->query($sql2);
-
 					$data = $info2->fetch_assoc();
 
-					$sql4 = "INSERT INTO `metrofooddb`.`cliente` (`idUsuario`, `nombreCliente`, `apellidoCliente`, `estado`, `direccion`, `longCliente`, `latiCliente`, `correoCliente`, `telefonoCLiente`) VALUES ('".$data['id']."', '".$this->nombre."', '".$this->apellido."', '1', 'col San Anotnio San Salvador', '00000000', '0000000', '".$this->correoCliente."', '".$this->telefono."');";
+					$sql3="SELECT ";
+
+					$sql4 = "INSERT INTO `metrofooddb`.`repartidor` (`idRepartidor`, `nombreRepartidor`, `apellidoRepartidor`, `telefono`, `DUI`, `longRepartidor`, `latiRepartidor`) VALUES ('".$data['id']."', '".$this->nombre."', '".$this->apellido."', '1', 'col San Anotnio San Salvador', '00000000', '0000000', '".$this->correoCliente."', '".$this->telefono."');";
 
 				
 							$info4= $con->query($sql4);
