@@ -77,7 +77,7 @@
     <div class="container">
       
         <div class="col-md-9" style="margin-top: 10px;">
-                <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">Ordenar</p>
+                <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">Pedidos</p>
             </div>
         <div class="col-md-3" style="margin-top: 10px;">
          
@@ -132,25 +132,9 @@
 
           <br><br>
           <div class="clearfix"></div>
-          <div class="col-md-8 col-sm-8 col-xs-8">
+                   <div class="btn btn-success" id="recibido" > Pedido Recibido.</div>
 
-                      <label class="label-control">Direccion</label> 
-                      <input type="text" id="direccion" name="direccion" class="form-control" value="Direccion de referencia">
-                    </div>
-<br><br><br>
-          <div class="row">
-            <div class=" row col-md-12 col-sm-12 col-xs-12">              
-                       
-                        <div class="btn btn-success" id="btnMAPA" > Ubicacion Exacta.(OBLIGATORIO)</div>
-                       
-                        <div class="col-md-1 col-xs-1 col-md-1 "></div>
-
-                        <input type="hidden" name="lat" id="lati">
-                        <input type="hidden" name="long" id="long">
-                        <br><br>
-                        <div class="btn btn-danger" id="cancelarInfo" > CANCELAR</div>
-          </div>
-
+            </div>
           </div>
           <br><br>
         </div>
@@ -159,25 +143,7 @@
               <br><br><br><br>
                   <div class="col-xs-2 col-md-2 col-sm-2"></div>
 
-                  <div id="botonFinal" class="col-sm-8 col-md-8 col-xs-8">
-
-                      <div id="map" class="z-depth-1" style="height: 400px; width: 700px;"">
-                        
-                      </div>
-                      <br><br>
-                      <div class="clearfix"></div>
-
-                      
-                      <center>
-                        <div class="btn btn-success" id="guardarInfo" > Realizar compra.</div>
-                      
-                      
-
-                      </center>
-
-                      <br><br>
-
-                </div>
+          
       
         </div>
       
