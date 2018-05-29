@@ -107,10 +107,12 @@ class Repartidor extends Usuario
     }
 
      public function agregar($idRestaurante, $usuario,$contra){
-     	echo $idRestaurante;
-     	die();
+     		
+
 
     		$fecha=date('y-m-d');
+    		$objCon = new Conexion();
+    		$con = $objCon->conectar();
 			$objUsuario = new Usuario();
 
 			$vendor = false;
@@ -119,26 +121,30 @@ class Repartidor extends Usuario
 			$sql1 = "INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('".$usuario."', '".$contra."', '".$fecha."', '".$fecha."', '1', '4')";
 
 			$info = $con->query($sql1);
-			
-				if ($info) {
+
+				$sqlId="SELECT idRestaurante AS id from restaurante WHERE idUsuario='".$idRestaurante."';";
+		  		$infoId= $con->query($sqlId);
+		  		
+		  		$dataId=$infoId->fetch_assoc();
+
 					
 					$sql2 = "select max(u.idUsuario) as id from usuario u";
 					$info2 = $con->query($sql2);
 					$data = $info2->fetch_assoc();
 
-					$sql3="SELECT ";
 
-					$sql4 = "INSERT INTO `metrofooddb`.`repartidor` (`idRepartidor`, `nombreRepartidor`, `apellidoRepartidor`, `telefono`, `DUI`, `longRepartidor`, `latiRepartidor`) VALUES ('".$data['id']."', '".$this->nombre."', '".$this->apellido."', '1', 'col San Anotnio San Salvador', '00000000', '0000000', '".$this->correoCliente."', '".$this->telefono."');";
+					//$sql4 = "INSERT INTO `metrofooddb`.`repartidor` (`idUsuario`, `nombreRepartidor`, `apellidoRepartidor`, `telefono`, `DUI`,`idRestaurante`, `estadoRepartidor`, `longRepartidor`, `latiRepartidor`) VALUES ('".$data['id']."', '".$this->nombreRepartidor."', '".$this->apellidoRepartidor."', '".$this->telefonoRepartidor."','".$this->dui."','".$dataId['id']."', '1', '00000000', '0000000';";
 
-				
-							$info4= $con->query($sql4);
+					$sql4="INSERT INTO `repartidor` (`idRepartidor`, `idUsuario`, `nombreRepartidor`, `apellidoRepartidor`, `telefono`, `DUI`, `idRestaurante`, `estadoRepartidor`, `longRepartidor`, `latiRepartidor`) VALUES (NULL, '".$data['id']."', '".$this->nombreRepartidor."', '".$this->apellidoRepartidor."', '".$this->telefonoRepartidor."', '".$this->dui."', '".$dataId['id']."', '1', '0000000000', '0000000000');";
+					
+					$info4= $con->query($sql4);
 
-						if ($info4>0) {
+					
+
+						if ($info4==1) {
 							$vendor = true;	
 						}
 
-				}
-				
 				return $vendor;
 
 		}
