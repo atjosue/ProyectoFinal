@@ -23,8 +23,8 @@ $(document).ready(function(){
 					
 
 					$("#botonFinal").show();
-					console.log("nombre de la imagen:");
-						console.log($("#prueba").val());
+					//console.log("nombre de la imagen:");
+					//	console.log($("#prueba").val());
 
 				});
 
@@ -210,4 +210,65 @@ $(document).ready(function(){
 		
 	
 	});
+
+//------------------------------------------HACER COMPRAAAAAAAAAAAAAAAA------------------------
+
+	$("#RealizarCompra").on("click",function(){
+		console.log("ahora se viene lo shido");
+
+		 swal({
+                       title: "A Un Paso de Lo Mejor...:D",
+                       text: "¿Estas seguro que  desea realizar la Compra?",
+                      
+                       imageUrl: '../../imagenes/iconos/moto.png',
+                       showCancelButton: true,
+                       cancelButtonText: "No",
+                       confirmButtonText: "Si",
+                       confirmButtonColor: "#00A59D",
+                       closeOnConfirm: true,
+                       closeOnCancel: true
+                   },
+                                function (isConfirm) {
+                                  if (isConfirm) {
+
+                                                              
+                                  $.ajax({
+									type:'POST',
+									data:{key:'quitar'},
+									url:"../../controller/carritoController.php",
+										success:function(data){
+											if (data==true) {
+												swal({
+												  title: "Sweet!",
+												  text: "La compra se ha realizado.",
+												  imageUrl: '../../imagenes/iconos/moto.png'
+												});
+                                          setTimeout( function(){ 
+                                              $(location).reload();
+                                          }, 3000 );
+                                          
+                                        }else{
+                                            swal({
+                                                  title: "Ha ocurrido un Error!",
+                                                  text: "Ponte en contacto con MetroFood!!",
+                                                  timer: 1500,
+                                                  type: 'error',
+                                                  closeOnConfirm: true,
+                                                          closeOnCancel: true
+                                                });
+                                        }
+									}
+								});                    
+
+                               } else {
+                            }
+                          });  
+	
+	});
+
+
+
+
+
+//-------------------------------------FIN HACER COMPRA----------------------------------------
 });

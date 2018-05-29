@@ -93,7 +93,7 @@
                 $conCantidades=1;
                 foreach ($data as  $value) {
                   $sql="select cantidad  from carrito where idCombo='".$value['idCombo']."';";
-                  
+
                   
                   echo "
 
@@ -167,7 +167,7 @@
 
                       
                       <center>
-                        <div class="btn btn-success" id="guardarInfo" > Realizar compra.</div>
+                        <div class="btn btn-success" id="RealizarCompra" > Realizar compra.</div>
                       
                       
 

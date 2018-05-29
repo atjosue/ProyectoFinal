@@ -1,6 +1,7 @@
 <?php 
- require_once 'Conexion.php';
-class Repartidor
+ //require_once 'Conexion.php';
+ require_once 'Usuario.php';
+class Repartidor extends Usuario 
 {
 	protected $idRepartidor;
 	protected $idUsuario;
@@ -16,7 +17,7 @@ class Repartidor
 
 	function __construct()
 	{
-		
+		parent::__construct();	
 	}
 	public function getIdRepartidor(){
 	    	return $this->idRepartidor;
@@ -105,9 +106,9 @@ class Repartidor
     }
 
      public function agregar($idRestaurante, $usuario,$contra){
-     		$passEncrip=sha1($contra);
+     		$passEncrip=$this->encriptar($contra);
     		$con = $this->conectar();
-    		$fecha=now();
+    		$fecha=date('y-m-d');
 			$objUsuario = new Usuario();
 
 			$vendor = false;
