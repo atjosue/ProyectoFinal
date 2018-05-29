@@ -80,15 +80,31 @@ class Carrito
 		$sql1="select idCliente as id from cliente where idUsuario='".$_SESSION['IDUSUARIO']."'";
 		$res=$con->query($sql1);
 		$data=$res->fetch_assoc();
+		$sql2="SELECT idRestaurante as idRes from combo where idCombo='".$this->idCombo."' ";
+		$res2=$con->query($sql2);
+		$idRes=$res2->fetch_assoc();
 
-			$sql2="INSERT INTO `metrofooddb`.`carrito` (`nombreCombo`, `idCombo`, `precio`, `idCliente`, `cantidad`) 
-				   VALUES ('".$this->nombreCombo."', '".$this->idCombo."', '".$this->precio."', '".$data['id']."','1');";
 
-			
+
+			$sql2="INSERT INTO `metrofooddb`.`carrito` (`nombreCombo`, `idCombo`, `precio`, `idCliente`, `cantidad`, `idRestaurante`) 
+				   VALUES ('".$this->nombreCombo."', '".$this->idCombo."', '".$this->precio."', '".$data['id']."','1','".$idRes['idRes']."');";
+				  
 
 			$res2= $con->query($sql2);
-			if ($res2==1) {
-				$info=$res2;
+
+			$sql3="select cantidad*precio as subtotal from carrito where idCombo='".$this->idCombo."';";
+			
+			$eSql3=$con->query($sql3);
+			$subT=$eSql3->fetch_assoc();
+
+			$sql4="UPDATE `metrofooddb`.`carrito` SET `subtotal`='".$subT['subtotal']."' WHERE `idCombo`='".$this->idCombo."';";
+
+				$infa=$con->query($sql4);
+
+
+
+			if ($infa==1) {
+				$info=$infa;
 			}else{
 				$info=null;
 			}
