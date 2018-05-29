@@ -1,0 +1,969 @@
+A continuacion se presentan las bases de datos con las que se ha expelrimentado.
+
+
+-----------Version 2.1 14/05/18---------
+#crear base de datos
+create database if not exists MetroFoodDB;
+use metrofooddb;
+
+
+
+create table tipoUsuario(
+
+	idTipoUsuario int not null auto_increment,
+    tipoUsuario int,
+    nombreTipoUsuario varchar(30),
+    estado int,
+        
+    constraint pk_tipoUsuario primary key(idTipoUsuario)
+    
+) engine=innodb;
+
+select * from tipousuario;
+
+create table Usuario(
+	
+    idUsuario int not null auto_increment,
+    usuario varchar(20),
+    pass varchar(60),
+    fechaCreacionUsuario date,
+	fechaModificacionUsuario date,
+    estadoUsuario int,
+    idTipoUsuario int,
+	
+    constraint pk_usuario primary key(idUsuario),
+    constraint fk_tipoUsuario_Usuario foreign key(idTipoUsuario) references tipoUsuario(idTipoUsuario)
+    
+) engine = innodb;
+	
+    #engine innobd es para poder utilizar un gestor que permita procesos almacenados
+
+create table restaurante(
+
+    idRestaurante int not null auto_increment,
+	idUsuario int not null,
+	nombreRestaurante varchar(100) not null,
+    descripcionRestaurante varchar(300),
+    estadoRestaurante int,
+    fechaCreacion date,
+    fechaModificacion date,
+    longRestaurante varchar(80),
+    latiRestaurante varchar(80),
+    
+    constraint pk_restaurante primary key(idRestaurante),
+    constraint fk_restaurante_Usuario foreign key(idUsuario) references Usuario(idUsuario)
+)ENGINE= InnoDB;
+
+create table telefono_restaurante(
+	idTelefonoRestaurante int auto_increment,
+    idRestaurante int not null,
+    telefono varchar(20),
+    estado int,
+    
+    constraint pk_TelRest primary key(idTelefonoRestaurante),
+    constraint fk_TelRest_Restaurante foreign key(idRestaurante) references restaurante(idRestaurante)
+    
+)engine=innodb;
+
+create table combo(
+	idCombo int auto_increment not null ,
+    nombreCombo varchar(100) not null,
+    descripcionCombo varchar(100),
+    precioCombo double not null,
+    estadoCombo int,
+    fechaCreacionCombo date,
+    fechaModificacionCombo date,
+    
+    constraint pk_combo primary key(idCombo) 
+)ENGINE= InnoDB;
+
+create table repartidor(	
+	idRepartidor int not null auto_increment,
+    idUsuario int not null,
+    nombreRepartidor varchar(150),
+	estadoRepartidor int,
+    fechaCreacion date,
+    fechaModificacion date,
+    longRepartidor varchar(80),
+    latiRepartidor varchar(80),
+    
+    constraint pk_repartidor primary key(idRepartidor),
+    constraint fk_repartidor_Usuario foreign key (idUsuario) references Usuario(idUsuario)
+    
+)engine=Innodb;
+
+create table telefono_repartidor(
+	idTelefonoRepartidor int auto_increment,
+    idRepartidor int not null,
+    telefono varchar(20),
+    
+    constraint pk_TelRepart primary key(idTelefonoRepartidor),
+    constraint fk_TelRest_Repartidor foreign key(idRepartidor) references repartidor(idRepartidor)
+    
+)engine=innodb;
+
+create table cliente (
+	
+    idCliente int not null auto_increment,
+    idUsuario int not null,
+    nombre varchar(200),
+    estado int,
+    fechaCreacion date,
+    fechaModificacion date,
+    longRestaurante varchar(80),
+    latiRestaurante varchar(80),
+    
+    constraint pk_cliente primary key(idCliente), 
+	constraint fk_cliente_Usuario foreign key (idUsuario) references Usuario(idUsuario)
+    
+) engine=innodb;
+
+
+create table telefono_cliente(
+	idTelefonoCliente int auto_increment,
+    idCliente int not null,
+    telefono varchar(20),
+    
+    constraint pk_TelCliente primary key(idTelefonoCliente),
+    constraint fk_TelCleinte_Cliente foreign key(idCliente) references cliente(idCliente)
+    
+)engine=innodb;
+
+create table orden(
+	
+    idOrden int not null auto_increment,
+    fechaOrden date,
+    estadoOrden int,
+    estadoEntregaOrden int,
+    idRepartidor int not null,
+    idCliente int not null,
+    fechaModificacion date,
+    
+    constraint fk_Orden_Repart foreign key(idRepartidor) references repartidor(idRepartidor),
+    constraint fk_Orden_Cliente foreign key(idCliente) references cliente(idCliente),
+    
+    constraint pk_Orden primary key(idOrden)
+    
+) engine=innodb;
+	
+create table detalle_Orden(
+	
+    idDetalleOrden int not null auto_increment,
+    idOrden int not null,
+    idCombo int not null,
+    estadoDestalleOrden int,
+    precioProducto double,
+    fechaCreacion date,
+    fechaModificacion date,
+    
+	constraint pk_idDetalleOrden primary key(idDetalleOrden),
+    constraint fk_DetalleOrden_Orden foreign key(idOrden) references orden(idOrden),
+    constraint fk_DetalleOrden_Combo foreign key(idCombo) references combo(idCombo)
+    
+    
+) engine=innodb;
+
+
+
+
+-----------Version 2.1 16/05/18---------(ya tiene registros.)
+#crear base de datos
+
+#drop database metrofooddb;
+
+create database if not exists MetroFoodDB;
+use metrofooddb;
+
+
+create table tipoUsuario(
+
+	idTipoUsuario int not null auto_increment,
+    tipoUsuario int,
+    nombreTipoUsuario varchar(30),
+    estado int,
+        
+    constraint pk_tipoUsuario primary key(idTipoUsuario)
+    
+) engine=innodb;
+
+INSERT INTO `metrofooddb`.`tipousuario` (`tipoUsuario`, `nombreTipoUsuario`, `estado`) VALUES ('1', 'ADMIN', '1');
+INSERT INTO `metrofooddb`.`tipousuario` (`tipoUsuario`, `nombreTipoUsuario`, `estado`) VALUES ('2', 'RESTAURANTE', '1');
+INSERT INTO `metrofooddb`.`tipousuario` (`tipoUsuario`, `nombreTipoUsuario`, `estado`) VALUES ('3', 'CLIENTE', '1');
+INSERT INTO `metrofooddb`.`tipousuario` (`tipoUsuario`, `nombreTipoUsuario`, `estado`) VALUES ('4', 'REPARTIDOR', '1');
+
+
+create table Usuario(
+	
+    idUsuario int not null auto_increment,
+    usuario varchar(20),
+    pass varchar(120),
+    fechaCreacionUsuario date,
+	fechaModificacionUsuario date,
+    estadoUsuario int,
+    idTipoUsuario int,
+	
+    constraint pk_usuario primary key(idUsuario),
+    constraint fk_tipoUsuario_Usuario foreign key(idTipoUsuario) references tipoUsuario(idTipoUsuario)
+    
+) engine = innodb;
+	
+    #engine innobd es para poder utilizar un gestor que permita procesos almacenados
+    
+    INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('JOSUE', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '18-05-18', '18-05-18', '1', '1');
+INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('NOE', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '18-05-18', '18-05-18', '1', '1');
+INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('DIEGO', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '18-05-18', '18-05-18', '1', '4');
+INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('POLLO', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '18-05-18', '18-05-18', '1', '2');
+INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('CLIENTE', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '18-05-18', '18-05-18', '1', '3');
+
+
+create table restaurante(
+
+    idRestaurante int not null auto_increment,
+	idUsuario int not null,
+	nombreRestaurante varchar(100) not null,
+    descripcionRestaurante varchar(300),
+    estadoRestaurante int,
+    longRestaurante varchar(80),
+    latiRestaurante varchar(80),
+    direccion varchar(100),
+    
+    constraint pk_restaurante primary key(idRestaurante),
+    constraint fk_restaurante_Usuario foreign key(idUsuario) references Usuario(idUsuario)
+)ENGINE= InnoDB;
+
+INSERT INTO `metrofooddb`.`restaurante` (`idUsuario`, `nombreRestaurante`, `descripcionRestaurante`, `estadoRestaurante`, `longRestaurante`, `latiRestaurante`, `direccion`) VALUES ('4', 'Pollo Campero', 'este es el mejor pollo que hay', '1', '0000000000', '0000000000', 'colonia monserrat');
+
+create table telefono_restaurante(
+	idTelefonoRestaurante int auto_increment,
+    idRestaurante int not null,
+    telefono varchar(25),
+    estado int,
+    
+    constraint pk_TelRest primary key(idTelefonoRestaurante),
+    constraint fk_TelRest_Restaurante foreign key(idRestaurante) references restaurante(idRestaurante)
+    
+)engine=innodb;
+
+INSERT INTO `metrofooddb`.`telefono_restaurante` (`idRestaurante`, `telefono`, `estado`) VALUES ('1', '22736000', '1');
+INSERT INTO `metrofooddb`.`telefono_restaurante` (`idRestaurante`, `telefono`, `estado`) VALUES ('1', '22736001', '1');
+
+
+create table combo(
+	idCombo int auto_increment not null ,
+    nombreCombo varchar(100) not null,
+    descripcionCombo varchar(100),
+    precioCombo double not null,
+    estadoCombo int,
+    fechaCreacionCombo date,
+    fechaModificacionCombo date,
+    
+    constraint pk_combo primary key(idCombo) 
+)ENGINE= InnoDB;
+
+create table repartidor(	
+	idRepartidor int not null auto_increment,
+    idUsuario int not null,
+    nombreRepartidor varchar(100),
+    apellidoRepartidor varchar(100),
+    telefono varchar(40),
+    DUI varchar(12),
+    idRestaurante int,
+	estadoRepartidor int,
+    longRepartidor varchar(100),
+    latiRepartidor varchar(100),
+    
+    constraint pk_repartidor primary key(idRepartidor),
+    constraint fk_repartidor_Usuario foreign key (idUsuario) references Usuario(idUsuario),
+    constraint fk_repartidor_Restaurante foreign key (idRestaurante) references restaurante(idRestaurante)
+    
+)engine=Innodb;
+
+INSERT INTO `metrofooddb`.`repartidor` (`idUsuario`, `nombreRepartidor`, `apellidoRepartidor`, `telefono`, `DUI`, `idRestaurante`, `estadoRepartidor`, `longRepartidor`, `latiRepartidor`) VALUES ('3', 'Diego Alexander', 'Hernandez herrera', '22802000', '1234567-8', '1', '1', '0000000', '000000');
+
+create table cliente (
+	
+    idCliente int not null auto_increment,
+    idUsuario int not null,
+    nombreCliente varchar(100),
+    apellidoCliente varchar(100),
+    estado int,
+    direccion varchar(100),
+    longCliente varchar(100),
+    latiCliente varchar(100),
+    correoCliente varchar(100),
+    telefonoCLiente varchar(40),
+    
+    constraint pk_cliente primary key(idCliente), 
+	constraint fk_cliente_Usuario foreign key (idUsuario) references Usuario(idUsuario)
+    
+) engine=innodb;
+
+INSERT INTO `metrofooddb`.`cliente` (`idUsuario`, `nombreCliente`, `apellidoCliente`, `estado`, `direccion`, `longCliente`, `latiCliente`, `correoCliente`, `telefonoCLiente`) VALUES ('5', 'juan carlos', 'murcia esta', '1', 'col San Anotnio San Salvador', '00000000', '0000000', 'jua@gail.com', '22805106');
+
+create table orden(
+	
+    idOrden int not null auto_increment,
+    fechaOrden date,
+    estadoOrden int,
+    estadoEntregaOrden int,
+    idRepartidor int not null,
+    idCliente int not null,
+    fechaModificacion date,
+    
+    constraint fk_Orden_Repart foreign key(idRepartidor) references repartidor(idRepartidor),
+    constraint fk_Orden_Cliente foreign key(idCliente) references cliente(idCliente),
+    
+    constraint pk_Orden primary key(idOrden)
+    
+) engine=innodb;
+	
+create table detalle_Orden(
+	
+    idDetalleOrden int not null auto_increment,
+    idOrden int not null,
+    idCombo int not null,
+    estadoDestalleOrden int,
+    precioProducto double,
+    fechaCreacion date,
+    fechaModificacion date,
+    
+	constraint pk_idDetalleOrden primary key(idDetalleOrden),
+    constraint fk_DetalleOrden_Orden foreign key(idOrden) references orden(idOrden),
+    constraint fk_DetalleOrden_Combo foreign key(idCombo) references combo(idCombo)
+    
+    
+) engine=innodb;
+
+
+
+
+
+/******************************************************version preFinal
+
+-- phpMyAdmin SQL Dump
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 28-05-2018 a las 01:34:05
+-- Versión del servidor: 10.1.30-MariaDB
+-- Versión de PHP: 7.2.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `metrofooddb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrito`
+--
+
+CREATE TABLE `carrito` (
+  `id` int(11) NOT NULL,
+  `nombreCombo` varchar(100) DEFAULT NULL,
+  `precio` double DEFAULT NULL,
+  `idCliente` int(11) DEFAULT NULL,
+  `idCombo` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`id`, `nombreCombo`, `precio`, `idCliente`, `idCombo`) VALUES
+(1, 'combo supermega economico', 5.99, 11, 59),
+(2, 'ede', 22.5, 11, 77),
+(3, 'combo Chidorri', 20.6, 11, 60),
+(4, 'combo supermega economico', 5.99, 11, 59);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cliente`
+--
+
+CREATE TABLE `cliente` (
+  `idCliente` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `nombreCliente` varchar(100) DEFAULT NULL,
+  `apellidoCliente` varchar(100) DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
+  `longCliente` varchar(100) DEFAULT NULL,
+  `latiCliente` varchar(100) DEFAULT NULL,
+  `correoCliente` varchar(100) DEFAULT NULL,
+  `telefonoCLiente` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `cliente`
+--
+
+INSERT INTO `cliente` (`idCliente`, `idUsuario`, `nombreCliente`, `apellidoCliente`, `estado`, `direccion`, `longCliente`, `latiCliente`, `correoCliente`, `telefonoCLiente`) VALUES
+(1, 5, 'juan carlos', 'murcia esta', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'jua@gail.com', '22805106'),
+(5, 20, 'gerson valdimir', 'trejo isleÃ±o', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'gerson@gmail.com', '22807424'),
+(6, 26, 'leonardo', 'pineda', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'leo@gmail.com', '2280'),
+(7, 35, 'tecnico', 'tzec', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'nvin', '2280'),
+(8, 42, 'david', 'amaya', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'ede@gmail.com', '22807424'),
+(9, 51, 'Rene Armando', 'Trejo IsleÃ±o', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'rene@gmai.com', '72025917'),
+(10, 53, '', '', 1, 'col San Anotnio San Salvador', '00000000', '0000000', '', ''),
+(11, 54, 'Jose Agustin', 'Trejo IseÃ±o', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'tin@gmail.com', '22807424'),
+(12, 56, 'fatima', 'reyes', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'fa@gmail.com', '22807424'),
+(13, 57, 'nilson', 'amaya', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'ede@gmail.com', '22807424'),
+(14, 59, 'Maria', 'Moran', 1, 'col San Anotnio San Salvador', '00000000', '0000000', 'lourhggf', '25124802');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `combo`
+--
+
+CREATE TABLE `combo` (
+  `idCombo` int(11) NOT NULL,
+  `nombreCombo` varchar(100) NOT NULL,
+  `descripcionCombo` varchar(100) DEFAULT NULL,
+  `precioCombo` double NOT NULL,
+  `estadoCombo` int(11) DEFAULT NULL,
+  `fechaCreacionCombo` date DEFAULT NULL,
+  `fechaModificacionCombo` date DEFAULT NULL,
+  `idRestaurante` int(11) DEFAULT NULL,
+  `img` varchar(300) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `combo`
+--
+
+INSERT INTO `combo` (`idCombo`, `nombreCombo`, `descripcionCombo`, `precioCombo`, `estadoCombo`, `fechaCreacionCombo`, `fechaModificacionCombo`, `idRestaurante`, `img`) VALUES
+(1, 'combo1Pollo', 'Esta es la descripcion del combo1', 10, 1, '2018-08-18', '2018-08-18', 1, '1'),
+(2, 'combo2Pollo', 'Esta es la descripcion del combo2', 6, 1, '2018-08-18', '2018-08-18', 1, '2'),
+(3, 'combo3Pollo', 'Esta es la descripcion del combo3', 7.5, 1, '2018-08-18', '2018-08-18', 1, '3'),
+(4, 'combo4Pollo', 'Esta es la descripcion del combo4', 22.3, 1, '2018-08-18', '2018-08-18', 1, '4'),
+(5, 'combo5Pollo', 'Esta es la descripcion del combo5', 15.1, 1, '2018-08-18', '2018-08-18', 1, '5'),
+(6, 'combo1Taco', 'Esta es una descripcion de combo', 9.5, 1, '2018-08-18', '2018-08-18', 2, '6'),
+(7, 'combo2Taco', 'Esta es una descripcion de combo', 11.9, 1, '2018-08-18', '2018-08-18', 2, '7'),
+(8, 'combo3Taco', 'Esta es una descripcion de combo', 10.99, 1, '2018-08-18', '2018-08-18', 2, '8'),
+(9, 'combo4Taco', 'Esta es una descripcion de combo', 5.99, 1, '2018-08-18', '2018-08-18', 2, '9'),
+(10, 'combo5Taco', 'Esta es una descripcion de combo', 6.66, 1, '2018-08-18', '2018-08-18', 2, '10'),
+(11, 'combo1Wendys', 'Esta es una descripcion de combo', 5.8, 1, '2018-08-18', '2018-08-18', 3, '11'),
+(12, 'combo2Wendys', 'Esta es una descripcion de combo', 7.6, 1, '2018-08-18', '2018-08-18', 3, '12'),
+(13, 'combo3Wendys', 'Esta es una descripcion de combo', 25.5, 1, '2018-08-18', '2018-08-18', 3, '13'),
+(14, 'combo4Wendys', 'Esta es una descripcion de combo', 20.11, 1, '2018-08-18', '2018-08-18', 3, '14'),
+(15, 'combo5Wendys', 'Esta es una descripcion de combo', 15.15, 1, '2018-08-18', '2018-08-18', 3, '15'),
+(16, 'combo1italiana', 'Esta es una descripcion de combo', 20.3, 1, '2018-08-18', '2018-08-18', 4, '16'),
+(17, 'combo2italiana', 'Esta es una descripcion de combo', 60.41, 1, '2018-08-18', '2018-08-18', 4, '17'),
+(18, 'combo3italiana', 'Esta es una descripcion de combo', 30.3, 1, '2018-08-18', '2018-08-18', 4, '18'),
+(19, 'combo4italiana', 'Esta es una descripcion de combo', 15.6, 1, '2018-08-18', '2018-08-18', 4, '19'),
+(20, 'combo5italiana', 'Esta es una descripcion de combo', 15.5, 1, '2018-08-18', '2018-08-18', 4, '20'),
+(21, 'combo1china', 'Esta es una descripcion de combo', 9.6, 1, '2018-08-18', '2018-08-18', 5, '21'),
+(22, 'combo2china', 'Esta es una descripcion de combo', 10.5, 1, '2018-08-18', '2018-08-18', 5, '22'),
+(23, 'combo3china', 'Esta es una descripcion de combo', 5.12, 1, '2018-08-18', '2018-08-18', 5, '23'),
+(24, 'combo4china', 'Esta es una descripcion de combo', 4.99, 1, '2018-08-18', '2018-08-18', 5, '24'),
+(25, 'combo5china', 'Esta es una descripcion de combo', 9.99, 1, '2018-08-18', '2018-08-18', 5, '25'),
+(26, 'combo1roma', 'Esta es una descripcion de combo', 11.8, 1, '2018-08-18', '2018-08-18', 6, '26'),
+(27, 'combo2roma', 'Esta es una descripcion de combo', 19.7, 1, '2018-08-18', '2018-08-18', 6, '27'),
+(28, 'combo3roma', 'Esta es una descripcion de combo', 6.3, 1, '2018-08-18', '2018-08-18', 6, '28'),
+(29, 'combo4roma', 'Esta es una descripcion de combo', 7.4, 1, '2018-08-18', '2018-08-18', 6, '29'),
+(30, 'combo5roma', 'Esta es una descripcion de combo', 5.9, 1, '2018-08-18', '2018-08-18', 6, '30'),
+(31, 'combo1green', 'Esta es una descripcion de combo', 4.8, 1, '2018-08-18', '2018-08-18', 7, '31'),
+(32, 'combo2green', 'Esta es una descripcion de combo', 7.56, 1, '2018-08-18', '2018-08-18', 7, '32'),
+(33, 'combo3green', 'Esta es una descripcion de combo', 8.7, 1, '2018-08-18', '2018-08-18', 7, '33'),
+(34, 'combo4green', 'Esta es una descripcion de combo', 30.99, 1, '2018-08-18', '2018-08-18', 7, '34'),
+(35, 'combo5green', 'Esta es una descripcion de combo', 10.5, 1, '2018-08-18', '2018-08-18', 7, '35'),
+(36, 'combo1beni', 'Esta es una descripcion de combo', 9.99, 1, '2018-08-18', '2018-08-18', 8, '36'),
+(37, 'combo2beni', 'Esta es una descripcion de combo', 12.5, 1, '2018-08-18', '2018-08-18', 8, '37'),
+(38, 'combo3beni', 'Esta es una descripcion de combo', 15.6, 1, '2018-08-18', '2018-08-18', 8, '38'),
+(39, 'combo4beni', 'Esta es una descripcion de combo', 15.99, 1, '2018-08-18', '2018-08-18', 8, '39'),
+(40, 'combo5beni', 'Esta es una descripcion de combo', 19.99, 1, '2018-08-18', '2018-08-18', 8, '40'),
+(42, 'combo6Wendys', 'Este es el primer combo desde la pagina', 22.5, 1, '2018-05-21', '2018-05-21', 3, '18052163549'),
+(43, 'Combo7wendys', 'esta es la descripcion', 22.5, 1, '2018-05-21', '2018-05-21', 3, '18052164102'),
+(44, 'combo8wendys', 'papas', 10, 1, '2018-05-21', '2018-05-21', 3, '18052164214'),
+(45, 'combo9Wendys', 'esta es la comobo 5 ', 22.9, 1, '2018-05-21', '2018-05-21', 3, '18052164426'),
+(46, 'combo6Pollo', 'este es el combo 10 del pollo campero', 10.99, 1, '2018-05-21', '2018-05-21', 1, '18052164636'),
+(47, 'combo10 wendys', 'este combo', 20, 1, '2018-05-21', '2018-05-21', 3, '18052165807'),
+(51, 'combo1Goya', 'este es el primer combo creado', 22.5, 1, '2018-05-22', '2018-05-22', 9, '18052232801'),
+(52, 'alitasCrispy', 'comobo de aliras de carlos', 5, 1, '2018-05-23', '2018-05-23', 3, '18052380924'),
+(53, 'pupusas Free', 'pupusas locas y mas', 10.5, 1, '2018-05-24', '2018-05-24', 10, '180524103033'),
+(54, 'combo Familiar', 'este combo dejara hasta el dia siguiente/', 22.5, 1, '2018-05-25', '2018-05-25', 10, '18052530620'),
+(55, 'cambo Gigante', 'el combo casi mas grande', 50.6, 1, '2018-05-25', '2018-05-25', 10, '18052531631'),
+(56, 'Combo gigante de la wendys', 'este es el combo figante', 10.5, 1, '2018-05-25', '2018-05-25', 3, '18052545712'),
+(57, 'combo estalone', 'este combo solo es privado', 15, 1, '2018-05-25', '2018-05-25', 3, '18052551441'),
+(58, 'combo libre', 'el combo ideal para la reunion ', 30.6, 1, '2018-05-25', '2018-05-25', 3, '18052551600'),
+(59, 'combo supermega economico', 'este es el combo mas baratus', 5.99, 1, '2018-05-25', '2018-05-25', 3, '18052552433'),
+(60, 'combo Chidorri', 'este combo es del ciego', 20.6, 1, '2018-05-25', '2018-05-25', 3, '18052553810'),
+(61, 'combo chido', 'esta es la descripcion NO', 20, 1, '2018-05-25', '2018-05-25', 3, '18052555302'),
+(62, '', '', 0, 1, '2018-05-25', '2018-05-25', 3, ''),
+(63, '', '', 0, 1, '2018-05-25', '2018-05-25', 3, ''),
+(64, '', '', 0, 1, '2018-05-25', '2018-05-25', 3, ''),
+(65, '', '', 0, 1, '2018-05-25', '2018-05-25', 3, ''),
+(66, 'combo', 'este combo', 12.5, 1, '2018-05-25', '2018-05-25', 3, 'imagenNo'),
+(67, 'combito', 'esta madre', 123, 1, '2018-05-25', '2018-05-25', 3, '18052571619'),
+(68, 'combo 22', 'este es ek combo', 22.6, 1, '2018-05-25', '2018-05-25', 3, '18052562258'),
+(69, 'combo1Dennis', 'este es el combo', 22.5, 1, '2018-05-25', '2018-05-25', 18, 'imagenNo'),
+(70, 'combo2 denis', 'esta es la descripcion', 10.5, 1, '2018-05-25', '2018-05-25', 18, 'imagenNo'),
+(71, 'combo3', 'esta es la desc', 22.8, 1, '2018-05-25', '2018-05-25', 18, '18052575814'),
+(72, 'combo4', 'esta es la des', 22.5, 1, '2018-05-25', '2018-05-25', 18, '18052580308'),
+(73, 'COMO8|8|514', '56', 454, 1, '2018-05-25', '2018-05-25', 18, '18052590057'),
+(74, 'jandres', 'esta es la desc', 1e15, 1, '2018-05-25', '2018-05-25', 18, '18052591213'),
+(75, 'montiel', 'esta', 100000000, 1, '2018-05-25', '2018-05-25', 18, '18052591323'),
+(76, 'gracias PROFE', 'esta es la des', 10000000000, 1, '2018-05-25', '2018-05-25', 18, '18052591621'),
+(77, 'ede', 'rngoeubnoigmrf', 22.5, 1, '2018-05-26', '2018-05-26', 3, '18052630255'),
+(78, 'combo Gigante', 'Este es el combo gigante de la pupusareia abby el cual incluye 15 pupusas y 2 sodas a un gran presio', 10.99, 1, '2018-05-26', '2018-05-26', 19, '18052670516');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_orden`
+--
+
+CREATE TABLE `detalle_orden` (
+  `idDetalleOrden` int(11) NOT NULL,
+  `idOrden` int(11) NOT NULL,
+  `idCombo` int(11) NOT NULL,
+  `estadoDestalleOrden` int(11) DEFAULT NULL,
+  `precioProducto` double DEFAULT NULL,
+  `fechaCreacion` date DEFAULT NULL,
+  `fechaModificacion` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `orden`
+--
+
+CREATE TABLE `orden` (
+  `idOrden` int(11) NOT NULL,
+  `fechaOrden` date DEFAULT NULL,
+  `estadoOrden` int(11) DEFAULT NULL,
+  `idRepartidor` int(11) NOT NULL,
+  `idCliente` int(11) NOT NULL,
+  `fechaModificacion` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `repartidor`
+--
+
+CREATE TABLE `repartidor` (
+  `idRepartidor` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `nombreRepartidor` varchar(100) DEFAULT NULL,
+  `apellidoRepartidor` varchar(100) DEFAULT NULL,
+  `telefono` varchar(40) DEFAULT NULL,
+  `DUI` varchar(12) DEFAULT NULL,
+  `idRestaurante` int(11) DEFAULT NULL,
+  `estadoRepartidor` int(11) DEFAULT NULL,
+  `longRepartidor` varchar(100) DEFAULT NULL,
+  `latiRepartidor` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `repartidor`
+--
+
+INSERT INTO `repartidor` (`idRepartidor`, `idUsuario`, `nombreRepartidor`, `apellidoRepartidor`, `telefono`, `DUI`, `idRestaurante`, `estadoRepartidor`, `longRepartidor`, `latiRepartidor`) VALUES
+(1, 3, 'Diego Alexander', 'Hernandez herrera', '22802000', '1234567-8', 1, 1, '0000000', '000000');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `restaurante`
+--
+
+CREATE TABLE `restaurante` (
+  `idRestaurante` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `nombreRestaurante` varchar(100) NOT NULL,
+  `descripcionRestaurante` varchar(300) DEFAULT NULL,
+  `estadoRestaurante` int(11) DEFAULT NULL,
+  `longRestaurante` varchar(80) DEFAULT NULL,
+  `latiRestaurante` varchar(80) DEFAULT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
+  `informacionRestaurante` varchar(300) DEFAULT NULL,
+  `img` varchar(100) DEFAULT NULL,
+  `tel1` varchar(100) DEFAULT NULL,
+  `tel2` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `restaurante`
+--
+
+INSERT INTO `restaurante` (`idRestaurante`, `idUsuario`, `nombreRestaurante`, `descripcionRestaurante`, `estadoRestaurante`, `longRestaurante`, `latiRestaurante`, `direccion`, `informacionRestaurante`, `img`, `tel1`, `tel2`) VALUES
+(1, 4, 'Pollo Campero', 'este es el mejor pollo que hay en el salvador y ete estamos haciendo una atenta innvitacion a realizarlaaaa compra de tu vidaaa perrooooo', 1, '0000000000', '0000000000', 'colonia monserrat', 'Siente el sabor de la magia de Sabor campero! has click para ver nuestras promociones', NULL, NULL, NULL),
+(2, 7, 'Taco Bell', 'Si no hay taco no hay Fiesta, ve nuestras mejores promociones, has click', 1, '0000000000', '0000000000', 'caller miralvalle', 'Si deseas probar los mejores tacos del mundo no hay otro lugar en el salvador que debas visitar, animate y disfruta de lo mejor', NULL, NULL, NULL),
+(3, 8, 'Wendys', 'Has visto algo igual antes?', 1, '-89.18055620000001', '13.6396909', 'calle la esperanza', 'Wendys es la mejor de todas broth', '18052525001', '99999999', '22807424'),
+(4, 9, 'Pizzeria Italiana', 'El sabor de Italia a tan solo unos minutos, Conoce mas acerca de nuestras Promociones!!', 1, '0000000000', '0000000000', 'avenida jersusalen', 'Nunca el sabor de Italia estuvo tan dentro de Ti, solo ordena un producto y en cuestion de minutos a la puerta de tu casa', NULL, NULL, NULL),
+(5, 10, 'China Work', 'Alguna Vez has sentido que estas mas cerca de China de lo que crees, has click y Sorprendete!', 1, '0000000000', '0000000000', 'calle la rabida', 'China mas cerca de TI. Este es el mejor restaurante de comida rapida que existe en todo el pais, solo ordena uno de nuestros productos y jamas querras probar otro restaurante', NULL, NULL, NULL),
+(6, 11, 'Tony Roma\'s', 'EL sabor Gourmet hasta la puerta de tu casa! clickea y ordena nuestros Productos!', 1, '0000000000', '0000000000', 'autopista norte', 'Las mejores carnes de todo el pais solo las encuetras en Tony\'s Roma , animate y disfruta de nuestros servicios', NULL, NULL, NULL),
+(7, 12, 'Go Green', 'Mas Vegetariano que nadie, Mas cerca de ti! has click y ve nuestras Promociones!', 1, '0000000000', '0000000000', 'calle ruber dario', 'Mas vegetariano imposible. Ordena y disfruta de lo mejor de lo mejor con respecto a ensaladas en todo el pais', NULL, NULL, NULL),
+(8, 13, 'Beniggans', 'Las mejores Hambuguesas de Todo El Salvador a solo un click y unos minutos !', 1, '0000000000', '0000000000', 'avenida la esperanza', 'La hamburguesa mas famosa de todo el pais ahora mas cerca y en menos tiempo que nunca, ordenalo aca mismo y anima tu dia y llenalo de satisfaccion', NULL, NULL, NULL),
+(9, 40, '', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 41, 'Pupuseria EL ATICO', 'EL mejor lugar para disfrutar pupusas a un click', 1, '-89.1805572', '13.639686999999999', 'calle a planes de renderos frente al mirador', 'este es el mejor restaurante para realizar compras en cualquier lugar', '180524102906', '22807426', '22809322'),
+(11, 43, '', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 44, 'La Pampa', 'restaurante hermoso', 1, '-89.1805632', '13.6396752', 'colonia america calle la dorada.', 'este es el restaurante mas grande', '', '22807424', '22805106'),
+(13, 45, 'Tortas LITO', 'los mejores tacos de EL Salavador y solo aqui.', 0, '-89.1805636', '13.6396768', 'calle antigua a panchimalco', 'ven y disfruta de la mejor opcion en tacos de todo el Pais', '18052534113', '22808022', 'OPCIONAL'),
+(14, 46, 'Restaurante Casa de Piedra', 'Nada mejor que Lo mejor de Los planes. ', 1, '', '', 'restaurante camino a los planes de Renderos', 'Restaurante casa de piedra es la major opcion que piedes tomar si quieres comer con elegancia de CASA DE PIEDRA', '18052534807', '22808022', 'OPCIONAL'),
+(15, 47, 'Restaurante La Chilena', 'El sabor de Chile a un Solo click', 1, '-89.1805722', '13.6396854', 'KM7. Calle a planes de Renderos, San Salvador.', 'Esta es tu oportunidad para poder disfrutar en unos minutos de lo mejor de CHILE. ', '18052544005', '22809090', 'OPCIONAL'),
+(16, 48, 'La pergola', 'este restaurante', 1, '', '', 'calle casa de piedra', 'esta cosa', '18052563809', '22807424', 'OPCIONAL'),
+(17, 49, 'sublime', 'wbvihfb', 1, '', '', 'col america', 'nj vfbv', '18052564351', '22807424', 'OPCIONAL'),
+(18, 50, 'Dennis', 'haz click para ver mas sobre lo mejor de lo mejor', 1, '-89.2789507', '13.673964', 'esta es la direccin', 'knfviuwbhvwjvmflvnm', '18052591409', '22807424', 'OPCIONAL'),
+(19, 58, 'Pupuseria ABBY', 'las mejores pupusas del Pais a un Click', 1, '-89.1805558', '13.639687499999999', 'calle a planes de Renderos km 10', 'sorprendete con el sabor unico e inigualabre con el que preparamos nuestras pupusas, las mejores pupusas de todo el Salvador y orgullosamente PLANENAS', '18052670314', '22807424', '22809636');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `telefono_restaurante`
+--
+
+CREATE TABLE `telefono_restaurante` (
+  `idTelefonoRestaurante` int(11) NOT NULL,
+  `idRestaurante` int(11) NOT NULL,
+  `telefono` varchar(25) DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `telefono_restaurante`
+--
+
+INSERT INTO `telefono_restaurante` (`idTelefonoRestaurante`, `idRestaurante`, `telefono`, `estado`) VALUES
+(1, 1, '22736000', 1),
+(2, 1, '22736001', 1),
+(3, 2, '22804845', 1),
+(4, 3, '22804845', 1),
+(5, 4, '22804845', 1),
+(6, 5, '22804845', 1),
+(7, 6, '22804845', 1),
+(8, 6, '22804845', 1),
+(9, 7, '22804845', 1),
+(10, 8, '22804845', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipoimagen`
+--
+
+CREATE TABLE `tipoimagen` (
+  `idTipoImagen` int(11) NOT NULL,
+  `tipo` int(11) DEFAULT NULL,
+  `nombre` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tipoimagen`
+--
+
+INSERT INTO `tipoimagen` (`idTipoImagen`, `tipo`, `nombre`) VALUES
+(1, 1, 'restaurante'),
+(2, 2, 'repartidor'),
+(3, 3, 'combos');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipousuario`
+--
+
+CREATE TABLE `tipousuario` (
+  `idTipoUsuario` int(11) NOT NULL,
+  `tipoUsuario` int(11) DEFAULT NULL,
+  `nombreTipoUsuario` varchar(30) DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tipousuario`
+--
+
+INSERT INTO `tipousuario` (`idTipoUsuario`, `tipoUsuario`, `nombreTipoUsuario`, `estado`) VALUES
+(1, 1, 'ADMIN', 1),
+(2, 2, 'RESTAURANTE', 1),
+(3, 3, 'CLIENTE', 1),
+(4, 4, 'REPARTIDOR', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `idUsuario` int(11) NOT NULL,
+  `usuario` varchar(20) DEFAULT NULL,
+  `pass` varchar(120) DEFAULT NULL,
+  `fechaCreacionUsuario` date DEFAULT NULL,
+  `fechaModificacionUsuario` date DEFAULT NULL,
+  `estadoUsuario` int(11) DEFAULT NULL,
+  `idTipoUsuario` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`idUsuario`, `usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES
+(1, 'JOSUE', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 1),
+(2, 'NOE', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 1),
+(3, 'DIEGO', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-26', 1, 4),
+(4, 'POLLO', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 2),
+(5, 'CLIENTE', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 3),
+(7, 'TACO', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 2),
+(8, 'WENDYS', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 2),
+(9, 'ITALIANA', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 2),
+(10, 'CHINA', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-25', 1, 2),
+(11, 'ROMA', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-18', 1, 2),
+(12, 'GREEN', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-25', 1, 2),
+(13, 'BENIGGANS', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-18', '2018-05-25', 1, 2),
+(20, 'gerson', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-21', '2018-05-21', 1, 3),
+(26, 'leo', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-21', '2018-05-21', 1, 3),
+(35, 'tecnico', '7b52009b64fd0a2a49e6d8a939753077792b0554', '2018-05-21', '2018-05-21', 1, 3),
+(38, 'kfc2', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-22', '2018-05-27', 1, 2),
+(40, 'goya', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-22', '2018-05-22', 1, 2),
+(41, 'atico', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-22', '2018-05-22', 1, 2),
+(42, 'ede', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-22', '2018-05-22', 1, 3),
+(43, 'subway', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-22', '2018-05-22', 1, 2),
+(44, 'pampa', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-23', '2018-05-23', 1, 2),
+(45, 'lito', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-24', '2018-05-24', 1, 2),
+(46, 'PIEDRA', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-25', '2018-05-25', 1, 2),
+(47, 'chile', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-25', '2018-05-25', 1, 2),
+(48, 'pergola', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-25', '2018-05-25', 1, 2),
+(49, 'sublime', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-25', '2018-05-25', 1, 2),
+(50, 'dennis', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-25', '2018-05-25', 1, 2),
+(51, 'rene', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-26', '2018-05-26', 1, 3),
+(53, '', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '2018-05-26', '2018-05-26', 1, 3),
+(54, 'tin', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-26', '2018-05-26', 1, 3),
+(56, 'fafa', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-26', '2018-05-26', 1, 3),
+(57, 'nilson', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-26', '2018-05-26', 1, 3),
+(58, 'abby', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2018-05-26', '2018-05-26', 1, 2),
+(59, 'lourdes', '1cdd29ec1cb59765b749d8bac1fc5e6733d4a30d', '2018-05-27', '2018-05-27', 1, 3);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`idCliente`),
+  ADD KEY `fk_cliente_Usuario` (`idUsuario`);
+
+--
+-- Indices de la tabla `combo`
+--
+ALTER TABLE `combo`
+  ADD PRIMARY KEY (`idCombo`),
+  ADD KEY `fk_combo_rest` (`idRestaurante`);
+
+--
+-- Indices de la tabla `detalle_orden`
+--
+ALTER TABLE `detalle_orden`
+  ADD PRIMARY KEY (`idDetalleOrden`),
+  ADD KEY `fk_DetalleOrden_Orden` (`idOrden`),
+  ADD KEY `fk_DetalleOrden_Combo` (`idCombo`);
+
+--
+-- Indices de la tabla `orden`
+--
+ALTER TABLE `orden`
+  ADD PRIMARY KEY (`idOrden`),
+  ADD KEY `fk_Orden_Repart` (`idRepartidor`),
+  ADD KEY `fk_Orden_Cliente` (`idCliente`);
+
+--
+-- Indices de la tabla `repartidor`
+--
+ALTER TABLE `repartidor`
+  ADD PRIMARY KEY (`idRepartidor`),
+  ADD KEY `fk_repartidor_Usuario` (`idUsuario`),
+  ADD KEY `fk_repartidor_Restaurante` (`idRestaurante`);
+
+--
+-- Indices de la tabla `restaurante`
+--
+ALTER TABLE `restaurante`
+  ADD PRIMARY KEY (`idRestaurante`),
+  ADD KEY `fk_restaurante_Usuario` (`idUsuario`);
+
+--
+-- Indices de la tabla `telefono_restaurante`
+--
+ALTER TABLE `telefono_restaurante`
+  ADD PRIMARY KEY (`idTelefonoRestaurante`),
+  ADD KEY `fk_TelRest_Restaurante` (`idRestaurante`);
+
+--
+-- Indices de la tabla `tipoimagen`
+--
+ALTER TABLE `tipoimagen`
+  ADD PRIMARY KEY (`idTipoImagen`);
+
+--
+-- Indices de la tabla `tipousuario`
+--
+ALTER TABLE `tipousuario`
+  ADD PRIMARY KEY (`idTipoUsuario`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`idUsuario`),
+  ADD UNIQUE KEY `usuario` (`usuario`),
+  ADD KEY `fk_tipoUsuario_Usuario` (`idTipoUsuario`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `combo`
+--
+ALTER TABLE `combo`
+  MODIFY `idCombo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_orden`
+--
+ALTER TABLE `detalle_orden`
+  MODIFY `idDetalleOrden` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `orden`
+--
+ALTER TABLE `orden`
+  MODIFY `idOrden` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `repartidor`
+--
+ALTER TABLE `repartidor`
+  MODIFY `idRepartidor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `restaurante`
+--
+ALTER TABLE `restaurante`
+  MODIFY `idRestaurante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT de la tabla `telefono_restaurante`
+--
+ALTER TABLE `telefono_restaurante`
+  MODIFY `idTelefonoRestaurante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `tipoimagen`
+--
+ALTER TABLE `tipoimagen`
+  MODIFY `idTipoImagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tipousuario`
+--
+ALTER TABLE `tipousuario`
+  MODIFY `idTipoUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  ADD CONSTRAINT `fk_cliente_Usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`);
+
+--
+-- Filtros para la tabla `combo`
+--
+ALTER TABLE `combo`
+  ADD CONSTRAINT `fk_combo_rest` FOREIGN KEY (`idRestaurante`) REFERENCES `restaurante` (`idRestaurante`);
+
+--
+-- Filtros para la tabla `detalle_orden`
+--
+ALTER TABLE `detalle_orden`
+  ADD CONSTRAINT `fk_DetalleOrden_Combo` FOREIGN KEY (`idCombo`) REFERENCES `combo` (`idCombo`),
+  ADD CONSTRAINT `fk_DetalleOrden_Orden` FOREIGN KEY (`idOrden`) REFERENCES `orden` (`idOrden`);
+
+--
+-- Filtros para la tabla `orden`
+--
+ALTER TABLE `orden`
+  ADD CONSTRAINT `fk_Orden_Cliente` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
+  ADD CONSTRAINT `fk_Orden_Repart` FOREIGN KEY (`idRepartidor`) REFERENCES `repartidor` (`idRepartidor`);
+
+--
+-- Filtros para la tabla `repartidor`
+--
+ALTER TABLE `repartidor`
+  ADD CONSTRAINT `fk_repartidor_Restaurante` FOREIGN KEY (`idRestaurante`) REFERENCES `restaurante` (`idRestaurante`),
+  ADD CONSTRAINT `fk_repartidor_Usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`);
+
+--
+-- Filtros para la tabla `restaurante`
+--
+ALTER TABLE `restaurante`
+  ADD CONSTRAINT `fk_restaurante_Usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`);
+
+--
+-- Filtros para la tabla `telefono_restaurante`
+--
+ALTER TABLE `telefono_restaurante`
+  ADD CONSTRAINT `fk_TelRest_Restaurante` FOREIGN KEY (`idRestaurante`) REFERENCES `restaurante` (`idRestaurante`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `fk_tipoUsuario_Usuario` FOREIGN KEY (`idTipoUsuario`) REFERENCES `tipousuario` (`idTipoUsuario`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
