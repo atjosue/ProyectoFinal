@@ -23,7 +23,7 @@
  <body>
 
  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">METROFOOD</a>
+  <a class="navbar-brand" href="#"><p style="margin-top: 5px"> METROFOOD</p></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -33,11 +33,18 @@
       <li class="nav-item ">
         <p style=" color:white; font-size: 20px; margin-top: 15px; "><?php echo " Bienvenido: "; session_start(); print_r($_SESSION['USUARIO']); ?></p>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#"><p style="font-size: 20px; margin-top: 9px"> &nbsp; &nbsp;   Inicio </p> </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="verPedidoCliente.php"><p style="font-size: 20px; margin-top: 9px"> &nbsp; &nbsp;   Mis Pedidos</p> </a>
+      </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
         <a class="nav-link" href="ordenar.php">Carrito <img src="../../imagenes/iconos/agregarCarrito.png"></a>
       </li>
+
       <li class="nav-item active">
         <p style=" color:white; font-size: 20px; margin-top: 5px; " id="contadorCarrito"></p>
       </li>
