@@ -1,5 +1,7 @@
 <?php 
 	require_once'../model/Carrito.php';
+	require_once'../model/Orden.php';
+	require_once'../model/DetalleOrden.php';
 	if (isset($_POST['key'])){
 		switch ($_POST['key']) {
 			case 'cantidad':
@@ -22,6 +24,10 @@
 				break;	
 			case 'quitar':
 				quitar();
+				break;
+			case 'crearOrden':
+				crearOrden();
+
 				break;		
 			default:
 				
@@ -57,6 +63,13 @@
 		$objCarrito = new Carrito();
 		
 		echo $resp;
+	}
+	function crearOrden(){
+		
+		$objOrden = new Orden();
+		$objDetalleOrden = new DetalleOrden();
+
+
 	}
 
 	
