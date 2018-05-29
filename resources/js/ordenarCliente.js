@@ -234,7 +234,7 @@ $(document).ready(function(){
                                                               
                                   $.ajax({
 									type:'POST',
-									data:{key:'quitar'},
+									data:{key:'crearOrden'},
 									url:"../../controller/carritoController.php",
 										success:function(data){
 											if (data==true) {

@@ -10,6 +10,8 @@ class Carrito
 	private $precio;
 	private $idCliente;
 	private $idCombo;
+	private $subtotal;
+	private $idRestaurante;
 
 
 	function __construct()
@@ -69,6 +71,26 @@ class Carrito
 	public function setIdCombo($idCombo)
 	{
 	    $this->idCombo = $idCombo;
+	    return $this;
+	}
+	public function getSubtotal()
+	{
+	    return $this->subtotal;
+	}
+	
+	public function setSubtotal($subtotal)
+	{
+	    $this->subtotal = $subtotal;
+	    return $this;
+	}
+	public function getIdRestaurante()
+	{
+	    return $this->idRestaurante;
+	}
+	
+	public function setIdRestaurante($idRestaurante)
+	{
+	    $this->idRestaurante = $idRestaurante;
 	    return $this;
 	}
 	

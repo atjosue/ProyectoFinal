@@ -3,44 +3,79 @@
 	class detalleOrden
 	{
 		private $idDetalleOrden;
-		private $idCliente;
-		private $idProducto;
-		private $estadoDetalle;
-		private $precioProducto;
+		private $idCombo;
+		private $precioCombo;
+		private $nombreCombo;
+		private $cantidadCombo;
+		private $idOrden;
 
-		function __construct(argument)
+		function __construct()
 		{
 			
 		}
-		public function getIdDetalleOrden(){
-		    	return $this->idDetalleOrden;
+
+		public function getOdDetalleOrden()
+		{
+		    return $this->odDetalleOrden;
 		}
-		public function setIdDetalleOrden($idDetalleOrden){
-		    	$this->idDetalleOrden = $idDetalleOrden;
+		
+		public function setOdDetalleOrden($odDetalleOrden)
+		{
+		    $this->odDetalleOrden = $odDetalleOrden;
+		    return $this;
 		}
-		public function getIdCliente(){
-		    	return $this->idCliente;
+
+		public function getIdCombo()
+		{
+		    return $this->idCombo;
 		}
-		public function setIdCliente($idCliente){
-		    	$this->idCliente = $idCliente;
+		
+		public function setIdCombo($idCombo)
+		{
+		    $this->idCombo = $idCombo;
+		    return $this;
 		}
-		public function getIdProducto(){
-		    	return $this->idProducto;
+		public function getPrecioCombo()
+		{
+		    return $this->precioCombo;
 		}
-		public function setIdProducto($idProducto){
-		    	$this->idProducto = $idProducto;
+		
+		public function setPrecioCombo($precioCombo)
+		{
+		    $this->precioCombo = $precioCombo;
+		    return $this;
 		}
-		public function getEstadoProducto(){
-		    	return $this->estadoProducto;
+		public function getNombreCombo()
+		{
+		    return $this->nombreCombo;
 		}
-		public function setEstadoProducto($estadoProducto){
-		    	$this->estadoProducto = $estadoProducto;
+		
+		public function setNombreCombo($nombreCombo)
+		{
+		    $this->nombreCombo = $nombreCombo;
+		    return $this;
 		}
-		public function getPrecioProducto(){
-		    	return $this->precioProducto;
+
+		public function getCantidadCombo()
+		{
+		    return $this->cantidadCombo;
 		}
-		public function setPrecioProducto($precioProducto){
-		    	$this->precioProducto = $precioProducto;
+		
+		public function setCantidadCombo($cantidadCombo)
+		{
+		    $this->cantidadCombo = $cantidadCombo;
+		    return $this;
 		}
+		public function getIdOrden()
+		{
+		    return $this->idOrden;
+		}
+		
+		public function setIdOrden($idOrden)
+		{
+		    $this->idOrden = $idOrden;
+		    return $this;
+		}
+
 	}
  ?>

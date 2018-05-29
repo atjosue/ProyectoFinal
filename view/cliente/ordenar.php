@@ -62,7 +62,7 @@
   <div class="clearfix"></div>
  
 
-    <div class="container">
+    <div class="container" id="infoOrden">
       
         <div class="col-md-9" style="margin-top: 10px;">
                 <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">Ordenar</p>
@@ -110,11 +110,16 @@
                         $idCont2++;
                 }
 
+                echo '<input type="hidden" name="" class="" id=""><br>
+                      <input type="hidden" name="" class="" id=""><br>
+                     ';
+
               }
 
 
              ?>
           <thead>
+
               
               <th></th>
               <th></th>
