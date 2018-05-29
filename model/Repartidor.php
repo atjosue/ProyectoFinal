@@ -106,14 +106,14 @@ class Repartidor extends Usuario
     }
 
      public function agregar($idRestaurante, $usuario,$contra){
-     		$passEncrip=$this->encriptar($contra);
-    		$con = $this->conectar();
+
     		$fecha=date('y-m-d');
 			$objUsuario = new Usuario();
 
 			$vendor = false;
+			$
 
-			$sql1 = "INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('".$usuario."', '".$passEncrip."', '".$fecha."', '".$fecha."', '1', '4')";
+			$sql1 = "INSERT INTO `metrofooddb`.`usuario` (`usuario`, `pass`, `fechaCreacionUsuario`, `fechaModificacionUsuario`, `estadoUsuario`, `idTipoUsuario`) VALUES ('".$usuario."', '".$contra."', '".$fecha."', '".$fecha."', '1', '4')";
 
 			echo $sql;
 			die();
