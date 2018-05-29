@@ -76,7 +76,7 @@ $(document).ready(function(){
 											success : function(dati){
 												if (dati) {
 													console.log("paso el tres");
-													console.log(dato.total);
+													console.log(dati.total);
 													$('#total').val(dati.total);
 												}
 											}
