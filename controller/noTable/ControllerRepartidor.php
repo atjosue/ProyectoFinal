@@ -19,11 +19,14 @@ if (isset($_POST['key'])) {
 	function agregar(){
 		$info = $_POST['dataRep'];
 		$data=json_decode($info);
+		
 
 		session_start();
 		$idRestaurante=$_SESSION['IDUSUARIO'];
-		$usuario=$data[4];
-		$pass=$data[5];
+		$usuario=$data[4]->value;
+
+		$pass=sha1($data[5]->value);
+
 		
 
 		//$ObjUsuario = new Usuario();
