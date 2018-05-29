@@ -129,12 +129,21 @@
                       <label class="label-control">Direccion</label> 
                       <input type="text" id="direccion" name="direccion" class="form-control" value="Direccion de referencia">
                     </div>
+<br><br><br>
+          <div class="row">
+            <div class=" row col-md-12 col-sm-12 col-xs-12">              
+                       
+                        <div class="btn btn-success" id="btnMAPA" > Ubicacion Exacta.(OBLIGATORIO)</div>
+                       
+                        <div class="col-md-1 col-xs-1 col-md-1 "></div>
 
-          <div class="col-md-4 col-sm-4 col-xs-4">              
-                        <div class="btn btn-success" id="btnMAPA"> Ubicacion Exacta.(OBLIGATORIO)</div>
                         <input type="hidden" name="lat" id="lati">
                         <input type="hidden" name="long" id="long">
-                    </div>
+                        <br><br>
+                        <div class="btn btn-danger" id="cancelarInfo" > CANCELAR</div>
+          </div>
+
+          </div>
           <br><br>
         </div>
         <div class="row">
@@ -152,9 +161,9 @@
 
                       
                       <center>
-                        <div class="btn btn-success" id="guardarInfo" > GUARDAR</div>
+                        <div class="btn btn-success" id="guardarInfo" > Realizar compra.</div>
                       
-                      <div class="btn btn-danger" id="cancelarInfo" > CANCELAR</div>
+                      
 
                       </center>
 
