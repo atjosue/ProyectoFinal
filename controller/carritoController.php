@@ -65,10 +65,19 @@
 		echo $resp;
 	}
 	function crearOrden(){
-		
-		$objOrden = new Orden();
-		$objDetalleOrden = new DetalleOrden();
 
+		$objOrden = new Orden();
+		$datos=$_POST['dataProducto'];
+		$data=json_decode($datos);
+		
+
+		
+		$objOrden->setLatCliente($data[0]->value);
+		$objOrden->setLonCliente($data[1]->value);
+		$objOrden->setDireccion($data[2]->value);
+		$objOrden->setIdRestaurante($data[3]->value);
+		$res = $objOrden->crearOrden();
+		echo $res;
 
 	}
 

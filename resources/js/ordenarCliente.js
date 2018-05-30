@@ -155,6 +155,14 @@ $(document).ready(function(){
 		});
 	});
 
+	//direccion correcta.
+	$("#direccion").on("change", function(){
+		$("#dire").val($("#direccion").val());
+		$("#tota").val($("#total").val());
+	});
+
+
+
 	//-----------------------------------------Cancelar INFO-----------------------------------
 	$("#cancelarInfo").on("click",function(){
 		
@@ -231,10 +239,12 @@ $(document).ready(function(){
                                 function (isConfirm) {
                                   if (isConfirm) {
 
-                                                              
+                       var dataProducto = JSON.stringify($('#infoOrden :input').serializeArray());
+					   console.log(dataProducto);
+                                                       
                                   $.ajax({
 									type:'POST',
-									data:{key:'crearOrden'},
+									data:{dataProducto,dataProducto,key:'crearOrden'},
 									url:"../../controller/carritoController.php",
 										success:function(data){
 											if (data==true) {
@@ -244,7 +254,7 @@ $(document).ready(function(){
 												  imageUrl: '../../imagenes/iconos/moto.png'
 												});
                                           setTimeout( function(){ 
-                                              $(location).reload();
+                                              //$(location).reload();
                                           }, 3000 );
                                           
                                         }else{

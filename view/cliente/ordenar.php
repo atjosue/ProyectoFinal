@@ -74,7 +74,12 @@
          <div class="col-md-12" style="margin-top: 0px;">
           <table id="listadoClientes" class="mdl-data-table" cellspacing="1" width="100%">
             <thead>
-              
+               <input type="hidden" name="latitudd" id="lati">
+               <input type="hidden" name="longitudd" id="long">
+               <input type="hidden" name="direccionn" id="dire">
+               
+
+
               <th>Nombre del Combo </th>
               <th>Precio</th>
               <th>Cantidad</th>              
@@ -92,6 +97,9 @@
                 $idCont2='a';
                 $conCantidades=1;
                 foreach ($data as  $value) {
+                 
+                  echo '<input type="hidden" name="idRest" id="resr" value='.$value['idRestaurante'].'>';
+
                   $sql="select cantidad  from carrito where idCombo='".$value['idCombo']."';";
 
                   
@@ -138,7 +146,7 @@
           <div class="col-md-8 col-sm-8 col-xs-8">
 
                       <label class="label-control">Direccion</label> 
-                      <input type="text" id="direccion" name="direccion" class="form-control" value="Direccion de referencia">
+                      <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Direccion de referencia">
                     </div>
 <br><br><br>
           <div class="row">
@@ -148,8 +156,7 @@
                        
                         <div class="col-md-1 col-xs-1 col-md-1 "></div>
 
-                        <input type="hidden" name="lat" id="lati">
-                        <input type="hidden" name="long" id="long">
+                       
                         <br><br>
                         <div class="btn btn-danger" id="cancelarInfo" > CANCELAR</div>
           </div>
