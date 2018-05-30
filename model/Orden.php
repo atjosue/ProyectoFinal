@@ -293,6 +293,27 @@ require_once'DetalleOrden.php';
 			 return $devol;
 		}
 
+		public function getAllOrdenCliente(){
+			$ObjConexion = new Conexion();
+			$con = $ObjConexion->conectar();
+			session_start();
+			//para obtener el id del cliente que esta haciendo el combo		
+		$sql1="select idCliente as id from cliente where idUsuario ='".$_SESSION['IDUSUARIO']."'; ";
+		
+				$infa = $con->query($sql1);
+				$cliente =  $infa->fetch_assoc();
+
+
+			$sql=" SELECT * From  orden where idCliente='".$cliente['id']."';";
+			$data=$con->query($sql);
+			
+
+			
+
+			return $data;
+
+		}
+
 		public function getAllOrdenRestaurante(){
 			$ObjConexion = new Conexion();
 			$con = $ObjConexion->conectar();
@@ -301,14 +322,12 @@ require_once'DetalleOrden.php';
 		$sql1="select idRestaurante as id from restaurante where idUsuario ='".$_SESSION['IDUSUARIO']."'; ";
 		
 				$infa = $con->query($sql1);
-				$resta =  $infa->fetch_assoc();
+				$restau =  $infa->fetch_assoc();
 
-
-			$sql=" SELECT * From  orden where idRestaurante='".$resta['id']."';";
-			$data=$con->query($sql);
+				$sql=" SELECT * From  orden where idRestaurante='".$restau['id']."';";
+				$data=$con->query($sql);	
 
 			return $data;
-
 		}
 
 		//fin de la claase
