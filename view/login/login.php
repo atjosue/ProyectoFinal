@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>Login</title>
 
 <link rel="stylesheet" type="text/css" href="../../pluggins/plugins/bootstrap/css/bootstrap.css">
 <script src="../../pluggins/plugins/JQuery/jquery-3.3.1.min.js"></script>

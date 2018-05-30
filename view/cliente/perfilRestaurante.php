@@ -181,7 +181,7 @@
 
   </body>
 </html>
-/***************************************************MODAL VER COMBO******************************************************
+<!-- /***************************************************MODAL VERCOMBO***************************************************** */ -->
  <div class="modal " tabindex="-1" role="dialog" id="comboView" aria-labelledby="myModalLabel" aria-hidden="true">
                           <br><br><br><br><br><br>
                           <div class="modal-dialog modal-lg" role="document" >

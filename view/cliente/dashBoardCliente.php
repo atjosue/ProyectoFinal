@@ -82,10 +82,7 @@
               $objRestaurante =  new restaurante();
               $data = $objRestaurante->getAllInformacionHOME();
 
-              //echo $data;
-              //var_dump($data);
-              //die();
-             // $datos = $data->fetch_assoc();
+            
               $br = 4;
               $cont=0;
 
