@@ -93,7 +93,7 @@ class Repartidor extends Usuario
   		$data=$info->fetch_assoc();
  
     	//$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u WHERE r.idUsuario='".$data['id']."' AND u.idUsuario='".$data['id']."';";
-    	$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u, restaurante p WHERE r.idRestaurante='".$data['id']."' AND p.idRestaurante='".$data['id']."' AND r.idUsuario=u.idUsuario AND r.estadoRepartidor='1'";
+    	$sqlAll="SELECT r.idRepartidor, r.nombreRepartidor, r.apellidoRepartidor, r.telefono, r.DUI, r.idRestaurante, u.usuario as usuario, u.pass as contra FROM repartidor r INNER JOIN usuario u, restaurante p WHERE r.idRestaurante='".$data['id']."' AND p.idRestaurante='".$data['id']."' AND r.idUsuario=u.idUsuario AND r.estadoRepartidor!='0'";
     	
        // $sqlAll = "SELECT * from repartidor WHERE estadoRepartidor = 1";
        	

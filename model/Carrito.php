@@ -269,7 +269,7 @@ class Carrito
 		return json_encode($datos);
 	}
 
-	public function quitar(){
+	public function quitar($idCombo){
 		$objCon= new Conexion();
 		$con=$objCon->conectar();
 		session_start();
