@@ -155,7 +155,29 @@ class Carrito
 
 			return $info;
 
+	}
 
+	public function prepararCombos(){
+
+		$objCon = new Conexion();
+		$con = $objCon->conectar();
+		session_start();
+		$sql1="select idCliente as id from cliente where idUsuario='".$_SESSION['IDUSUARIO']."'";
+		$res=$con->query($sql1);
+		$data = $res->fetch_assoc();
+
+			$sql2="SELECT * from carrito where idCliente='".$data['id']."'";
+			
+
+			$resu= $con->query($sql2);
+
+			if ($res2->num_rows>0) {
+				$info=$res2;
+			}else{
+				$info=null;
+			}
+
+			return $info;
 
 	}
 

@@ -1,6 +1,8 @@
 <?php 
+
+	require_once'Conexion.php';
 	
-	class detalleOrden
+	class DetalleOrden 
 	{
 		private $idDetalleOrden;
 		private $idCombo;
@@ -8,6 +10,7 @@
 		private $nombreCombo;
 		private $cantidadCombo;
 		private $idOrden;
+		private $subtotal;
 
 		function __construct()
 		{
@@ -75,6 +78,26 @@
 		{
 		    $this->idOrden = $idOrden;
 		    return $this;
+		}
+
+		public function getSubtotal()
+		{
+		    return $this->subtotal;
+		}
+		
+		public function setSubtotal($subtotal)
+		{
+		    $this->subtotal = $subtotal;
+		    return $this;
+		}
+
+		public function crearDetalle(){
+			$objConexion = new Conexion();
+			$con=$objConexion->conectar();
+			$sql7="INSERT INTO `metrofooddb`.`detalle_orden` (`idCombo`, `precioCombo`, `nombreCombo`, `cantidad`, `idOrden`, `subtotal`) VALUES ('".$this->idCombo."', '".$this->precioCombo."', '".$this->nombreCombo."', '".$this->cantidadCombo."', '".$this->idOrden."', '".$this->subtotal."');";
+			$respues=$con->query($sql7);
+			
+			return $respues;
 		}
 
 	}
