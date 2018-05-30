@@ -143,8 +143,7 @@ class Carrito
 		$res=$con->query($sql1);
 		$data = $res->fetch_assoc();
 
-			$sql2="SELECT * from carrito where idCliente='".$data['id']."'";
-			
+			$sql2="SELECT * from carrito where idCliente='".$data['id']."'";	
 
 			$res2= $con->query($sql2);
 			if ($res2->num_rows>0) {
@@ -210,6 +209,7 @@ class Carrito
 		$sql1="select idCliente as id from cliente where idUsuario='".$_SESSION['IDUSUARIO']."'";
 		$res=$con->query($sql1);
 		$data = $res->fetch_assoc();
+
 
 			$sql2="DELETE FROM `metrofooddb`.`carrito` WHERE `idCliente`='".$data['id']."';";
 
@@ -291,7 +291,7 @@ class Carrito
 		return json_encode($datos);
 	}
 
-	public function quitar($idCombo){
+	public function eliminarCombo($idCombo){
 		$objCon= new Conexion();
 		$con=$objCon->conectar();
 		session_start();
@@ -300,7 +300,7 @@ class Carrito
 		$res=$con->query($sql1);
 		$data = $res->fetch_assoc();
 
-		$sql2="DELETE FROM `metrofooddb`.`carrito` WHERE `idCombo`='".$this->idCombo."';";
+		$sql2="DELETE FROM `metrofooddb`.`carrito` WHERE `idCombo`='".$idCombo."' AND idCliente='".$data['id']."';";
 		$infor=$con->query($sql2);
 		
 			if ($infor==1) {

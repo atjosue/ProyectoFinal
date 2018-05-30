@@ -1,6 +1,7 @@
 <?php 
 require_once '../model/Producto.php';
 require_once '../model/Carrito.php';
+require_once '../model/DetalleOrden.php';
 
 if (isset($_POST['key'])) {
 	$key = $_POST['key'];
@@ -37,6 +38,9 @@ if (isset($_POST['key'])) {
 				break;	
 			case 'recuperar':
 					recuperar();
+				break;
+			case 'combosAmodal':
+					combosAmodal();
 				break;					
 
 			
@@ -190,6 +194,14 @@ function verificarImagen(){
 		echo $res;
 		
 
+	}
+
+	function combosAmodal(){
+		$objDetalle = new DetalleOrden();
+		$id = $_POST['idCombo'];
+		$resu = $objDetalle->getAllDetalleRestaurante($id);
+		echo $resu;
+		
 	}
 
 

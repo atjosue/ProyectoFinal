@@ -7,8 +7,7 @@
     header('location: ../../index.php');
   }
 */
-
-   require_once'../../model/Carrito.php'; 
+   require_once'../../model/Orden.php'; 
  ?>
 <!DOCTYPE html>
 <html>
@@ -53,12 +52,7 @@
         <a class="nav-link" href="verPedidoCliente.php"><p style="font-size: 20px; margin-top: 9px"> &nbsp; &nbsp;   Mis Pedidos</p> </a>
       </li>
     </ul>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="ordenar.php">Carrito <img src="../../imagenes/iconos/agregarCarrito.png"></a>
-      </li>
- 
-    </ul>
+   
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -84,55 +78,100 @@
         </div>
         <div class="clearfix"></div>
          <div class="col-md-12" style="margin-top: 0px;">
-          <table id="listadoClientes" class="mdl-data-table" cellspacing="1" width="100%">
-            <thead>
-              
-              <th>Nombre del Combo </th>
-              <th>Precio</th>
-              <th>Cantidad</th>              
-              <th>Subtotal</th>
-              
-            </thead>
-            <tbody>
+          
               
             <?php 
-              $objCarrito = new Carrito();
-              $data = $objCarrito->extraerCombos();
+              $objOrden = new Orden();
+              $data = $objOrden->getAllOrdenCliente();
 
               if ($data!=false) {
                 $idCont=0.5;
                 $idCont2='a';
                 $conCantidades=1;
-                foreach ($data as  $value) {
-                  $sql="select cantidad  from carrito where idCombo='".$value['idCombo']."';";
-                  
-                  
-                  echo "
 
-                  <tr>
-                      <td>".$value['nombreCombo']."</td>
-                      <td>".$value['precio']."</td>
-                      <td>".$value['cantidad']."</td>
-                      <td>".$value['subTotal']."</td>
-                      
-                        </tr>";
-                        $idCont++;
-                        $idCont2++;
-                }
+                foreach ($data as  $value) {
+                 echo '<div class="row">
+                      <div style="width: 400px; height:300px;" class="form-control" id="map'.$value['idOrden'].'">
+                          acaira el mapa
+                    </div >
+                         <script>
+                            function initMap() {
+        var cliente'.$value['idOrden'].' = {lat: '.$value['latRestaurante'].', ln:'.$value['lonRestaurante'].' };
+        var restaurante'.$value['idOrden'].' = {lat: '.$value['latCliente'].', lng: '.$value['lonCliente'].'};
+                              var map = new google.maps.Map(document.getElementById("map'.$value['idOrden'].'"), {
+                                zoom: 4,
+                                center: uluru
+                              });
+                              var marker1 = new google.maps.Marker({
+                                position: cliente'.$value['idOrden'].',
+                                map: map
+                              });
+                               var marker2 = new google.maps.Marker({
+                                position: restaurante'.$value['idOrden'].' ,
+                                map: map
+                              });
+                            }
+                          </script>
+                      </script>
+                    <div class="form-control col-sm-6 col-md-6 col-xs-8">
+                      <table id="listadoClientes" class="mdl-data-table" cellspacing="1" >
+                            <thead>
+                              
+                              <th>Nombre del Combo </th>
+                              <th>Precio</th>
+                              <th>Cantidad</th>              
+                              <th>Subtotal</th>
+                              
+                            </thead>
+                            <tbody>';
+                        
+
+                            $ObjDetalle = new DetalleOrden();
+                            $data=$ObjDetalle->getAllDetalleCliente($value['idOrden']);
+
+                            foreach ($data as  $value) {
+                              echo "
+                                  <tr>
+                                      <td>".$value['nombreCombo']."</td>
+                                      <td>".$value['precioCombo']."</td>
+                                      <td>".$value['cantidad']."</td>
+                                      <td>".$value['subtotal']."</td>
+                                    </tr>";
+                            }
+                         
+                       echo '  </tbody>
+                       </table>
+                    </div>  
+                </div>';
+
+                }//termina el foreach
+
+              }else{
+
+                echo '<script type="text/javascript">
+                                       swal({
+                                                  title: " OH OOH!!!",
+                                                  text: " Aun no tienes pedidos",
+                                                  timer: 1900,
+                                                  type: "warning",
+                                                  closeOnConfirm: true,
+                                                          closeOnCancel: true
+                                                });
+                                          setTimeout( function(){ 
+                                              $(location).attr("href","../../view/cliente/dashBoardCliente.php");
+                                          }, 1000 );
+            </script>';
 
               }
 
 
              ?>
-          
-            </tbody>
-
-          </table>
          
 
           <br><br>
           <div class="clearfix"></div>
                    <div class="btn btn-success" id="recibido" > Pedido Recibido.</div>
+  
 
             </div>
           </div>
@@ -151,6 +190,7 @@
   
   
 </div>
+
 </body>
  <!-- Footer -->
     <footer class="py-5 bg-dark">

@@ -120,7 +120,7 @@ $(document).ready(function(){
                                                               
                                   $.ajax({
 									type:'POST',
-									data:{idCombo,idCombo,key:'quitar'},
+									data:{idCombo,idCombo,key:'borrar'},
 									url:"../../controller/carritoController.php",
 										success:function(data){
 											if (data==true) {
@@ -254,7 +254,7 @@ $(document).ready(function(){
 												  imageUrl: '../../imagenes/iconos/moto.png'
 												});
                                           setTimeout( function(){ 
-                                              //$(location).reload();
+                                              $(location).attr('href',"../../view/cliente/verPedidoCliente.php");
                                           }, 3000 );
                                           
                                         }else{

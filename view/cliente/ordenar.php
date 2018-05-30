@@ -122,6 +122,22 @@
                       <input type="hidden" name="" class="" id=""><br>
                      ';
 
+              }else{
+
+                echo '<script type="text/javascript">
+                                       swal({
+                                                  title: " OH OOH!!!",
+                                                  text: " Aun no tienes Articulos en el Carrito",
+                                                  timer: 1900,
+                                                  type: "warning",
+                                                  closeOnConfirm: true,
+                                                          closeOnCancel: true
+                                                });
+                                          setTimeout( function(){ 
+                                              $(location).attr("href","../../view/cliente/dashBoardCliente.php");
+                                          }, 1000 );
+            </script>';
+
               }
 
 

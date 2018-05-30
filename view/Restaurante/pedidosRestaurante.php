@@ -8,7 +8,6 @@
   }
 */
 
-   require_once'../../model/Carrito.php'; 
  ?>
 <!DOCTYPE html>
 <html>
@@ -50,13 +49,10 @@
         <a class="nav-link" href="dashboardRestaurante.php"><p style="font-size: 20px; margin-top: 9px"> &nbsp; &nbsp;   Inicio </p> </a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="verPedidoCliente.php"><p style="font-size: 20px; margin-top: 9px"> &nbsp; &nbsp;   Mis Pedidos</p> </a>
+        <a class="nav-link" href="verPedidosRealizados.php"><p style="font-size: 20px; margin-top: 9px"> &nbsp; &nbsp;   Mis Pedidos</p> </a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="ordenar.php">Carrito <img src="../../imagenes/iconos/agregarCarrito.png"></a>
-      </li>
  
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -87,38 +83,56 @@
           <table id="listadoClientes" class="mdl-data-table" cellspacing="1" width="100%">
             <thead>
               
-              <th>Nombre del Combo </th>
-              <th>Precio</th>
-              <th>Cantidad</th>              
-              <th>Subtotal</th>
+              <th>ID Pedido </th>
+              <th> estado </th>              
+              <th> Acciones</th>
               
             </thead>
             <tbody>
               
             <?php 
-              $objCarrito = new Carrito();
-              $data = $objCarrito->extraerCombos();
+              require_once'../../model/Orden.php';
+
+              $objOrden = new Orden();
+              $data = $objOrden->getAllOrdenRestaurante();
 
               if ($data!=false) {
                 $idCont=0.5;
                 $idCont2='a';
                 $conCantidades=1;
                 foreach ($data as  $value) {
-                  $sql="select cantidad  from carrito where idCombo='".$value['idCombo']."';";
+                  if ($value['estadoEntregaOrden']==1) {
+                    $estado="pendiente de entregar";
+                  }else if($value['estadoEntregaOrden']==0){
+                    $estado="entregado al cliente";
+                  }
                   
-                  
-                  echo "
+                  echo '
 
                   <tr>
-                      <td>".$value['nombreCombo']."</td>
-                      <td>".$value['precio']."</td>
-                      <td>".$value['cantidad']."</td>
-                      <td>".$value['subTotal']."</td>
-                      
-                        </tr>";
+                      <td>'.$value['idOrden'].'</td>
+                      <td>'.$estado.'</td>
+                      <td> <div class=" btn btn-primary verDetalle" id="'.$value['idOrden'].'">Detalle</div>&nbsp;&nbsp;<div class="btn btn-danger borrar">Reciclar</div></td>      
+                  </tr>';
                         $idCont++;
                         $idCont2++;
                 }
+
+              }else{
+
+                echo '<script type="text/javascript">
+                                       swal({
+                                                  title: " OH OOH!!!",
+                                                  text: " Aun no tienes Ordenes",
+                                                  timer: 1900,
+                                                  type: "warning",
+                                                  closeOnConfirm: true,
+                                                          closeOnCancel: true
+                                                });
+                                          setTimeout( function(){ 
+                                            //  $(location).attr("href","../../view/Restaurante/dashboardRestaurante.php");
+                                          }, 1000 );
+            </script>';
 
               }
 
@@ -131,10 +145,6 @@
          
 
           <br><br>
-          <div class="clearfix"></div>
-                   <div class="btn btn-success" id="recibido" > Pedido Recibido.</div>
-
-            </div>
           </div>
           <br><br>
         </div>
@@ -163,3 +173,78 @@
     <!-- Bootstrap core JavaScript -->
    
 </html>
+<!-- Modal de unsercion de Producto -->
+<div class="modal " id="modalIngresoProducto" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header " Style="height:45px;">
+                    
+                    <span class="robo" style="font-size: 20px;">Detalle de orden</span>
+                </div>
+                <div class="modal-body" >
+                  
+                      <table id="listadoClientes" class="mdl-data-table" cellspacing="1" width="100%">
+            <thead>
+              
+              <th>  nombre de combo</I> </th>
+              <th>  cantidad </th>              
+              <th>  precio </th>
+              <th>  subtotal </th>
+              
+            </thead>
+            <tbody>
+              
+            <?php 
+              require_once'../../model/Orden.php';
+
+              $objOrden = new Orden();
+              $data = $objOrden->getAllOrdenRestaurante();
+
+              if ($data!=false) {
+                $idCont=0.5;
+                $idCont2='a';
+                $conCantidades=1;
+                foreach ($data as  $value) {
+                 
+                  echo '
+
+                  <tr>
+                      <td>'.$value['nombreCombo'].'</td>
+                      <td>'.$value['cantidad'].'</td>
+                      <td>'.$value['precioCombo'].'</td>
+                      <td>'.$value['subtotal'].'</td>
+                      ';
+                        $idCont++;
+                        $idCont2++;
+                }
+
+              }else{
+
+                echo '<script type="text/javascript">
+                                       swal({
+                                                  title: " OH OOH!!!",
+                                                  text: " Esta Orden no tiene Combos",
+                                                  timer: 1900,
+                                                  type: "warning",
+                                                  closeOnConfirm: true,
+                                                          closeOnCancel: true
+                                                });
+                                          setTimeout( function(){ 
+                                            //  $(location).attr("href","../../view/Restaurante/dashboardRestaurante.php");
+                                          }, 1000 );
+            </script>';
+
+              }
+             ?>
+          
+            </tbody>
+
+          </table>
+
+              </div>         
+               <div class="modal-footer" id="modalFooter" >
+                  
+               </div>
+            </div>
+        </div> 
+</div>    

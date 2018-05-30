@@ -12,9 +12,20 @@
 <html>
 <head>
   <title>Gestion de restaurantes</title>
-  <link rel="stylesheet" type="text/css" href="../../contenido/vendor/bootstrap/css/bootstrap.css">
-  <script src="../../pluggins/bootstrap/js/bootstrap.min.js"></script>  
-  <script type="text/javascript" src="../../contenido/vendor/js/bootstrap.js"></script>
+
+ <link rel="stylesheet" type="text/css" href="../../pluggins/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="../../pluggins/dataTable/material.min.css">
+<link rel="stylesheet" type="text/css" href="../../pluggins/dataTable/dataTables.material.min.css">
+<link rel="stylesheet" type="text/css" href="../../pluggins/sweetalert-master/dist/sweetalert.css">
+
+<!-- JS <script type="text/javascript" src="../../resources/js/Restaurante.js"></script>-->
+<script type="text/javascript" src="../../pluggins/pluginess/jquery/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="../../pluggins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../pluggins/dataTable/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../pluggins/dataTable/dataTables.material.min.js"></script>
+<script type="text/javascript" src="../../pluggins/jQuery-Mask/src/jquery.mask.js"></script>
+<script type="text/javascript" src="../../pluggins/sweetalert-master/dist/sweetalert.min.js"></script>  
+  <script type="text/javascript" src="../../resources/js/dashboardRestaurante.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -29,18 +40,6 @@
       <li class="nav-item active">
         <a class="nav-link" href=""></a>
       </li>
-     <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-  -->
     </ul>
    
     <li></li>
@@ -50,36 +49,69 @@
 
 <!-- restarurantes -->
 <div class="container">
-    <?php 
-      require_once'../../model/Repartidor.php';
-      require_once'../../model/Pedido.php';
-    
-      $objRepartidor= new Repartidor();
-      $info = $objRepartidor->getAllRepartidor();
-      $dataR =$info->fech_assoc();
+  <br><br>
+     <div class="row">
 
-      $nombreCompleto = $dataR['nombre'].concat( $dataR['nombre']);
-      
-      $objPedido = new Pedido();
-      $objPedido->pedidos();
+        <div class="col-md-9" style="margin-top: 10px;">
+                <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">BIENVENIDO</p>
+                
+       </div>
 
-      echo '  
-            <div class="row col-md-12 col-xs-12 col-sm-12">
+       <div class="form-control col-md-3 col-xs-3 col-sm-3">
 
-                <div>$dataR[''] <br> <h4>Bienvenido</h4></div>
-            <div class="col-xs-6"></div>
-          <div class="col-xs-6">
-              <div class="btn btn-lg btn-warning rounded-circle" id="pedidos"> <br><br><br><br><br>Tiene una entrega </div>
-         </div>
-
-
+          <p id="hayPedido"></p>
+       </div>
+     </div>
+<br><br><br><br>
+     <div class="row col-md-12 col-sm-12 col-xs-12">
+        <div class="btn btn-success rounded-circle" style="width: 180px; height: 180px; margin-left: -50px;" id="inicio">
+            <br><br>
+            <h3 >INICIAR</h3>
+        </div>
+        <div class="btn btn-primary rounded-circle" style="width: 180px; height: 180px; margin-left: -180px;" id="entrega">
+            <br><br>
+            <h3 >ENTREGADO</h3>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="form-control col-sm-4 col-md-4 col-xs-4" id="contInfo">
+            <div class="form-group">
+              <h5>Nombre del Cliente</h5>
+              <h6 id="nombreC"> nose</h6>
             </div>
-      ' ;
+            <div class="form-group">
+               <h5>Apellidos</h5>
+               <h6 id="apellidoC"> tampoco</h6>
+            </div>
+            <div class="form-group">
+              <h5>Numero de Telefono</h5>
+              <h6 id="telefonoC">menos</h6>
+            </div>
+            <div class="form-group">
+              <h5>Cantidad a Cobrar</h5>
+              <h6 id="cantidadC">asaber</h6>
+            </div>
+
+        
+        </div>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;
+        <div class="form-control col-sm-5 col-md-5 col-xs-5" id="mapa">
+            
+           
+        </div>
 
 
-     ?>
+
+
+     </div>
+
+
+
 </div>
 </body>
+<br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br>
+
  <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">

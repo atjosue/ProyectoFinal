@@ -28,6 +28,10 @@
 			case 'crearOrden':
 				crearOrden();
 
+				break;	
+			case 'borrar':
+				quitarUNO();
+
 				break;		
 			default:
 				
@@ -70,8 +74,6 @@
 		$datos=$_POST['dataProducto'];
 		$data=json_decode($datos);
 		
-
-		
 		$objOrden->setLatCliente($data[0]->value);
 		$objOrden->setLonCliente($data[1]->value);
 		$objOrden->setDireccion($data[2]->value);
@@ -79,6 +81,12 @@
 		$res = $objOrden->crearOrden();
 		echo $res;
 
+	}
+	function quitarUNO(){
+		$objCarrito = new Carrito();
+		$idCombo=$_POST['idCombo'];
+		$res=$objCarrito->eliminarCombo($idCombo);
+			echo $res;
 	}
 
 	

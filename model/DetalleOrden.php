@@ -100,5 +100,16 @@
 			return $respues;
 		}
 
+		public function getAllDetalleCliente($idOrden){
+			$ObjConexion = new Conexion();
+			$con = $ObjConexion->conectar();
+
+			$sql=" SELECT * From detalle_orden where idOrden='".$idOrden."';";
+			$data=$con->query($sql);
+			
+			return $data;
+
+		}
+
 	}
  ?>

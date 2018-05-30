@@ -204,7 +204,7 @@ require_once'DetalleOrden.php';
 			$ordenCreada = $con->query($sql4);
 
 					$sql4A="UPDATE `metrofooddb`.`repartidor` SET `estadoRepartidor`='2' WHERE `idRepartidor`='".$this->idRepartidor."';";
-					$EstadoRepart=$con->query($sql4);
+					$EstadoRepart=$con->query($sql4A);
 
 			if ($ordenCreada) {
 	//--------------------------------------CREACION DEL DETALLE--------------------------------
@@ -231,6 +231,9 @@ require_once'DetalleOrden.php';
 						$dodu=$objDetalle->crearDetalle();
 
 						if ($dodu) {
+
+							$sql7="DELETE FROM `metrofooddb`.`carrito` WHERE `idCliente`='".$this->idCliente."';";
+							$borrarCarro=$con->query($sql7);
 							
 						}else{
 							$bandera=2;
@@ -247,6 +250,68 @@ require_once'DetalleOrden.php';
 
 			
 		}
+
+		public function getAllOrdenCliente(){
+			$ObjConexion = new Conexion();
+			$con = $ObjConexion->conectar();
+			session_start();
+			//para obtener el id del cliente que esta haciendo el combo		
+		$sql1="select idCliente as id from cliente where idUsuario ='".$_SESSION['IDUSUARIO']."'; ";
+		
+				$infa = $con->query($sql1);
+				$cliente =  $infa->fetch_assoc();
+
+
+			$sql=" SELECT * From  orden where idCliente='".$cliente['id']."';";
+			$data=$con->query($sql);
+			
+
+			
+
+			return $data;
+
+		}
+
+		public function verificarRepartidor(){
+			$ObjConexion = new Conexion();
+			$con = $ObjConexion->conectar();
+			session_start();
+			//para obtener el id del cliente que esta haciendo el combo		
+		$sql1="select idRepartidor as id from repartidor where idUsuario ='".$_SESSION['IDUSUARIO']."'; ";	
+		$info=$con->query($sql1);
+		$datos= $info->fetch_assoc();
+
+		$sql2 = " SELECT * FROM orden where idRepartidor='".$datos['id']."';";
+		$infa = $con->query($sql2);
+
+			if ($infa==1) {
+			 	$devol = $infa;
+			 }else{
+			 	$devol=false;
+			 }
+
+			 return $devol;
+		}
+
+		public function getAllOrdenRestaurante(){
+			$ObjConexion = new Conexion();
+			$con = $ObjConexion->conectar();
+			session_start();
+			//para obtener el id del cliente que esta haciendo el combo		
+		$sql1="select idRestaurante as id from restaurante where idUsuario ='".$_SESSION['IDUSUARIO']."'; ";
+		
+				$infa = $con->query($sql1);
+				$resta =  $infa->fetch_assoc();
+
+
+			$sql=" SELECT * From  orden where idRestaurante='".$resta['id']."';";
+			$data=$con->query($sql);
+
+			return $data;
+
+		}
+
+		//fin de la claase
 	}
 
  ?>
